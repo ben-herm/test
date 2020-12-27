@@ -35,5 +35,11 @@
   "policyAgreement2": "User Agreement",
   "policyAgreement3": "Privecy Policy",
   "nextBtn": "Next",
+  "confirmAccount": "Confirm Your Account",
+  "confirmEmailTxt1": "We've sent you a link to confirm you email address ",
+  "confirmEmailTxt2": "Please check your inbox",
+  "resendEmail": "Resend email",
   "register_end": "-------------------------------------------------------------------------------------"
+
+
 }

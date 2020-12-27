@@ -398,6 +398,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (_store.canRegister) {
                 DeviceUtils.hideKeyboard(context);
                 await _store.register();
+                Navigator.of(context).pushNamed(Routes.emailConfirmation);
                 // Navigator.of(context).pushNamed(Routes.register);
               } else {
                 _showErrorMessage('Please fill in all fields');

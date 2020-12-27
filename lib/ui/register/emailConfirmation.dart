@@ -104,7 +104,7 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
 
   Widget _buildRightSide() {
     TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 25);
-    TextStyle subTitleStyle = TextStyles.title.copyWith(fontSize: 20);
+    TextStyle subTitleStyle = TextStyles.body;
     if (AppTheme.fullWidth(context) < 393) {
       titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
       subTitleStyle = TextStyles.title.copyWith(fontSize: 18);
@@ -114,15 +114,49 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Column(children: [
               Text(
-                AppLocalizations.of(context).translate('createAccountTitle'),
+                AppLocalizations.of(context).translate('confirmAccount'),
                 style: titleStyle,
               ),
               SizedBox(height: 24.0),
+              Text.rich(
+                TextSpan(
+                    text: AppLocalizations.of(context)
+                            .translate('confirmEmailTxt1') +
+                        ' ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                    children: <TextSpan>[]),
+                textAlign: TextAlign.center,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: Text(
+                  AppLocalizations.of(context).translate('confirmEmailTxt2'),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey.shade700,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              )
+
+              // Text(
+              //   AppLocalizations.of(context).translate('confirmEmailTxt1'),
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+              // ),
+              // SizedBox(height: 24.0),
+              // Text(
+              //   AppLocalizations.of(context).translate('confirmEmailTxt2'),
+              //   style: subTitleStyle,
+              // )
             ]),
             // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
             SizedBox(height: 20.0),
