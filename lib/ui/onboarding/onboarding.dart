@@ -50,7 +50,7 @@ class _OnboardingState extends State<Onboarding> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+          padding: EdgeInsets.fromLTRB(0, 0, 40, 25),
         ),
         Icon(
           Icons.check_circle_outline_sharp,
@@ -89,14 +89,14 @@ class _OnboardingState extends State<Onboarding> {
   Widget _welcomeTo(titleStyle, subTitleStyle) {
     TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
     TextStyle linkStyle = TextStyle(color: Colors.black);
-    return Stack(
+    return Column(
       children: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SafeArea(
               child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Image.asset('assets/images/logo.png',
                       fit: BoxFit.contain)),
             ),
@@ -112,7 +112,7 @@ class _OnboardingState extends State<Onboarding> {
             SizedBox(height: 30),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.75,
-              height: MediaQuery.of(context).size.width * 0.175,
+              height: MediaQuery.of(context).size.width * 0.15,
               child: ElevatedButton(
                 // style: TextStyle(fontSize: 14),
                 child: Text(AppLocalizations.of(context).translate('signUp'),
@@ -143,6 +143,25 @@ class _OnboardingState extends State<Onboarding> {
     );
   }
 
+  Widget _buildRightSide(titleStyle, subTitleStyle) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
+            // SizedBox(height: 24.0),
+            _welcomeTo(titleStyle, subTitleStyle),
+            _checkList(),
+          ],
+        ),
+      ),
+    );
+  }
+
   Color randomColor() {
     var random = Random();
     final colorList = [
@@ -170,15 +189,25 @@ class _OnboardingState extends State<Onboarding> {
       titleStyle = TextStyles.title.copyWith(fontSize: 23);
       subTitleStyle = TextStyles.title.copyWith(fontSize: 18);
     }
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [_welcomeTo(titleStyle, subTitleStyle), _checkList()],
-            ),
-          ),
+    return Material(
+      child: Stack(
+        children: <Widget>[
+          MediaQuery.of(context).orientation == Orientation.landscape
+              ? Row(
+                  children: <Widget>[
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: _buildLeftSide(),
+                    // ),
+                    Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                          child: _buildRightSide(titleStyle, subTitleStyle),
+                        )),
+                  ],
+                )
+              : Center(child: _buildRightSide(titleStyle, subTitleStyle)),
         ],
       ),
     );

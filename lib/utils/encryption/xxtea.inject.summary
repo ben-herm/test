@@ -1,5 +1,5 @@
 {
-  "asset": "asset:boilerplate/lib/utils/encryption/xxtea.dart",
+  "asset": "asset:Relievion/lib/utils/encryption/xxtea.dart",
   "summary": {
     "injector": [],
     "module": [],

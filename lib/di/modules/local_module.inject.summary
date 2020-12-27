@@ -1,5 +1,5 @@
 {
-  "asset": "asset:boilerplate/lib/di/modules/local_module.dart",
+  "asset": "asset:Relievion/lib/di/modules/local_module.dart",
   "summary": {
     "injector": [],
     "module": [
@@ -21,7 +21,7 @@
             "dependencies": [
               {
                 "lookupKey": {
-                  "root": "asset:boilerplate/lib/data/sharedpref/shared_preference_helper.dart#SharedPreferenceHelper",
+                  "root": "asset:Relievion/lib/data/sharedpref/shared_preference_helper.dart#SharedPreferenceHelper",
                   "qualifier": null
                 },
                 "isProvider": false
@@ -33,7 +33,7 @@
             "kind": "method",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:boilerplate/lib/data/network/dio_client.dart#DioClient",
+                "root": "asset:Relievion/lib/data/network/dio_client.dart#DioClient",
                 "qualifier": null
               },
               "isProvider": false
@@ -55,7 +55,7 @@
             "kind": "method",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:boilerplate/lib/data/network/rest_client.dart#RestClient",
+                "root": "asset:Relievion/lib/data/network/rest_client.dart#RestClient",
                 "qualifier": null
               },
               "isProvider": false
@@ -69,7 +69,7 @@
             "kind": "method",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:boilerplate/lib/data/network/apis/posts/post_api.dart#PostApi",
+                "root": "asset:Relievion/lib/data/network/apis/posts/post_api.dart#PostApi",
                 "qualifier": null
               },
               "isProvider": false
@@ -79,14 +79,14 @@
             "dependencies": [
               {
                 "lookupKey": {
-                  "root": "asset:boilerplate/lib/data/network/dio_client.dart#DioClient",
+                  "root": "asset:Relievion/lib/data/network/dio_client.dart#DioClient",
                   "qualifier": null
                 },
                 "isProvider": false
               },
               {
                 "lookupKey": {
-                  "root": "asset:boilerplate/lib/data/network/rest_client.dart#RestClient",
+                  "root": "asset:Relievion/lib/data/network/rest_client.dart#RestClient",
                   "qualifier": null
                 },
                 "isProvider": false
@@ -112,7 +112,7 @@
             "kind": "method",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:boilerplate/lib/data/sharedpref/shared_preference_helper.dart#SharedPreferenceHelper",
+                "root": "asset:Relievion/lib/data/sharedpref/shared_preference_helper.dart#SharedPreferenceHelper",
                 "qualifier": null
               },
               "isProvider": false
@@ -140,7 +140,7 @@
             "kind": "method",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:boilerplate/lib/data/local/datasources/post/post_datasource.dart#PostDataSource",
+                "root": "asset:Relievion/lib/data/local/datasources/post/post_datasource.dart#PostDataSource",
                 "qualifier": null
               },
               "isProvider": false
@@ -154,7 +154,7 @@
             "kind": "method",
             "injectedType": {
               "lookupKey": {
-                "root": "asset:boilerplate/lib/data/repository.dart#Repository",
+                "root": "asset:Relievion/lib/data/repository.dart#Repository",
                 "qualifier": null
               },
               "isProvider": false
@@ -164,21 +164,21 @@
             "dependencies": [
               {
                 "lookupKey": {
-                  "root": "asset:boilerplate/lib/data/network/apis/posts/post_api.dart#PostApi",
+                  "root": "asset:Relievion/lib/data/network/apis/posts/post_api.dart#PostApi",
                   "qualifier": null
                 },
                 "isProvider": false
               },
               {
                 "lookupKey": {
-                  "root": "asset:boilerplate/lib/data/sharedpref/shared_preference_helper.dart#SharedPreferenceHelper",
+                  "root": "asset:Relievion/lib/data/sharedpref/shared_preference_helper.dart#SharedPreferenceHelper",
                   "qualifier": null
                 },
                 "isProvider": false
               },
               {
                 "lookupKey": {
-                  "root": "asset:boilerplate/lib/data/local/datasources/post/post_datasource.dart#PostDataSource",
+                  "root": "asset:Relievion/lib/data/local/datasources/post/post_datasource.dart#PostDataSource",
                   "qualifier": null
                 },
                 "isProvider": false

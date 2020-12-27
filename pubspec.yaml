@@ -27,11 +27,18 @@ dependencies:
   # The following adds the shared pref as a dependency in your application
   shared_preferences: ^0.5.10
 
+
+  # Keyboard visibility
+  flutter_keyboard_visibility: ^4.0.0
+
   # A composable, Future-based library for making HTTP requests.
   http: ^0.12.2
 
   # Flogs, a powerful logging framework
   f_logs: ^1.2.2
+
+  # Device Info
+  device_info: ^1.0.0
 
   # MobX is a library for reactively managing the state of your applications. Use the power of
   # observables, actions, and reactions to supercharge your Dart and Flutter apps.

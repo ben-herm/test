@@ -52,14 +52,19 @@ class TextFieldWidget extends StatelessWidget {
         keyboardType: this.inputType,
         style: Theme.of(context).textTheme.body1,
         decoration: InputDecoration(
-            hintText: this.hint,
-            hintStyle:
-                Theme.of(context).textTheme.body1.copyWith(color: hintColor),
-            errorText: errorText,
-            counterText: '',
-            icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+          hintText: this.hint,
+          hintStyle:
+              Theme.of(context).textTheme.body1.copyWith(color: hintColor),
+          errorText: errorText,
+          counterText: '',
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 2.0,
+            ),
+          ),
+        ),
       ),
     );
   }
-
 }

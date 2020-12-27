@@ -21,6 +21,19 @@
   "signIn": "I Have an Account",
   "welcomeCheckList1": "Treat Your Migraines",
   "welcomeCheckList2": "Manage Your Migraines Diary",
-  "welcomeCheckList3": "Get Insights and Statistics"
+  "welcomeCheckList3": "Get Insights and Statistics",
+  "welcome_end": "-------------------------------------------------------------------------------------",
+  
 
+  "register_start": "Below are list of strings for register screen",
+  "createAccountTitle": "Create your Account",
+  "userName": "Your Name",
+  "userEmail": "Email Address",
+  "emailConfirmation": "We will send you a confirmation message",
+  "userPassword": "Password",
+  "policyAgreement1": "I've read and agreed to Relivion's",
+  "policyAgreement2": "User Agreement",
+  "policyAgreement3": "Privecy Policy",
+  "nextBtn": "Next",
+  "register_end": "-------------------------------------------------------------------------------------"
 }

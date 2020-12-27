@@ -1,5 +1,5 @@
 {
-  "asset": "asset:boilerplate/lib/main.dart",
+  "asset": "asset:Relievion/lib/main.dart",
   "summary": {
     "injector": [],
     "module": [],
@@ -11,7 +11,7 @@
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:boilerplate/lib/main.dart#MyApp",
+              "root": "asset:Relievion/lib/main.dart#MyApp",
               "qualifier": null
             },
             "isProvider": false

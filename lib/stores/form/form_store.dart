@@ -185,6 +185,7 @@ abstract class _FormStore with Store {
   void validateAll() {
     validatePassword(password);
     validateUserEmail(userEmail);
+    validateUserName(userName);
   }
 }
 

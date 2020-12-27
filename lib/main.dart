@@ -25,6 +25,8 @@ void main() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
   ]).then((_) async {
     appComponent = await AppComponent.create(
       NetworkModule(),
