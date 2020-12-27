@@ -188,46 +188,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   : SizedBox(height: 1);
             }),
             // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
-
             _buildUserNameField(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  KeyboardVisibilityBuilder(
-                      builder: (context, isKeyboardVisible) {
-                    return (!isKeyboardVisible ||
-                            _nameFocusNode.hasFocus ||
-                            _emailFocusNode.hasFocus ||
-                            !_passwordFocusNode.hasFocus)
-                        ? Column(children: [
-                            Text(
-                              AppLocalizations.of(context)
-                                  .translate('createAccountTitle'),
-                              style: titleStyle,
-                            ),
-                            SizedBox(height: 24.0),
-                          ])
-                        : SizedBox(height: 1);
-                  }),
-                  // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
-
-                  _buildUserNameField(),
-                  _buildUserEmailField(),
-                  _buildPasswordField(),
-                  // _buildForgotPasswordButton(),
-                  privacyPolicyLinkAndTermsOfService(),
-                  _buildSignInButton()
-                ],
-              ),
-            ),
             _buildUserEmailField(),
             _buildPasswordField(),
             // _buildForgotPasswordButton(),
             privacyPolicyLinkAndTermsOfService(),
+            SizedBox(height: 20.0),
             _buildSignInButton()
           ],
         ),
@@ -414,19 +380,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // }
 
   Widget _buildSignInButton() {
-    return RoundedButtonWidget(
-      buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
-      buttonColor: Colors.orangeAccent,
-      textColor: Colors.white,
-      onPressed: () async {
-        if (_store.canLogin) {
-          DeviceUtils.hideKeyboard(context);
-          _store.login();
-        } else {
-          _showErrorMessage('Please fill in all fields');
-        }
-      },
-    );
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.75,
+          height: MediaQuery.of(context).size.width * 0.13,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.grey.shade600),
+            ),
+            child: Text(AppLocalizations.of(context).translate('nextBtn'),
+                style: TextStyle(
+                  fontSize: 18,
+                )),
+            onPressed: () async {
+              if (_store.canRegister) {
+                DeviceUtils.hideKeyboard(context);
+                await _store.register();
+                // Navigator.of(context).pushNamed(Routes.register);
+              } else {
+                _showErrorMessage('Please fill in all fields');
+              }
+            },
+          ),
+        ));
   }
 
   Widget navigate(BuildContext context) {

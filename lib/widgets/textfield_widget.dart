@@ -57,12 +57,7 @@ class TextFieldWidget extends StatelessWidget {
               Theme.of(context).textTheme.body1.copyWith(color: hintColor),
           errorText: errorText,
           counterText: '',
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey,
-              width: 2.0,
-            ),
-          ),
+          border: OutlineInputBorder(),
         ),
       ),
     );
