@@ -1,10 +1,10 @@
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/routes.dart';
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
+import 'package:Relievion/data/sharedpref/constants/preferences.dart';
+import 'package:Relievion/routes.dart';
+import 'package:Relievion/stores/language/language_store.dart';
+import 'package:Relievion/stores/post/post_store.dart';
+import 'package:Relievion/stores/theme/theme_store.dart';
+import 'package:Relievion/utils/locale/app_localization.dart';
+import 'package:Relievion/widgets/progress_indicator_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -223,7 +223,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     color: _languageStore.locale == object.locale
                         ? Theme.of(context).primaryColor
-                        : _themeStore.darkMode ? Colors.white : Colors.black,
+                        : _themeStore.darkMode
+                            ? Colors.white
+                            : Colors.black,
                   ),
                 ),
                 onTap: () {

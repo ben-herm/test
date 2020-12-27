@@ -1,4 +1,4 @@
-import 'package:boilerplate/stores/error/error_store.dart';
+import 'package:Relievion/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:validators/validators.dart';
 
@@ -22,6 +22,7 @@ abstract class _FormStore with Store {
 
   void _setupValidations() {
     _disposers = [
+      reaction((_) => userName, validateUserName),
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
       reaction((_) => confirmPassword, validateConfirmPassword)
@@ -29,6 +30,9 @@ abstract class _FormStore with Store {
   }
 
   // store variables:-----------------------------------------------------------
+  @observable
+  String userName = '';
+
   @observable
   String userEmail = '';
 
@@ -46,20 +50,28 @@ abstract class _FormStore with Store {
 
   @computed
   bool get canLogin =>
-      !formErrorStore.hasErrorsInLogin && userEmail.isNotEmpty && password.isNotEmpty;
+      !formErrorStore.hasErrorsInLogin &&
+      userEmail.isNotEmpty &&
+      password.isNotEmpty;
 
   @computed
   bool get canRegister =>
       !formErrorStore.hasErrorsInRegister &&
+      userName.isNotEmpty &&
       userEmail.isNotEmpty &&
-      password.isNotEmpty &&
-      confirmPassword.isNotEmpty;
+      password.isNotEmpty;
+  // confirmPasswsord.isNotEmpty;
 
   @computed
   bool get canForgetPassword =>
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
   // actions:-------------------------------------------------------------------
+  @action
+  void setUserName(String value) {
+    userName = value;
+  }
+
   @action
   void setUserId(String value) {
     userEmail = value;
@@ -73,6 +85,17 @@ abstract class _FormStore with Store {
   @action
   void setConfirmPassword(String value) {
     confirmPassword = value;
+  }
+
+  @action
+  void validateUserName(String value) {
+    if (value.isEmpty) {
+      formErrorStore.userName = "Name can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.userName = 'Name must be at least 3 characters long';
+    } else {
+      formErrorStore.userName = null;
+    }
   }
 
   @action
@@ -111,6 +134,18 @@ abstract class _FormStore with Store {
   @action
   Future register() async {
     loading = true;
+
+    Future.delayed(Duration(milliseconds: 1000)).then((future) {
+      loading = false;
+      success = true;
+    }).catchError((e) {
+      loading = false;
+      success = false;
+      errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
+          ? "Username and password doesn't match"
+          : "Something went wrong, please check your internet connection and try again";
+      print(e);
+    });
   }
 
   @action
@@ -157,6 +192,9 @@ class FormErrorStore = _FormErrorStore with _$FormErrorStore;
 
 abstract class _FormErrorStore with Store {
   @observable
+  String userName;
+
+  @observable
   String userEmail;
 
   @observable
@@ -166,11 +204,15 @@ abstract class _FormErrorStore with Store {
   String confirmPassword;
 
   @computed
-  bool get hasErrorsInLogin => userEmail != null || password != null;
+  bool get hasErrorsInLogin =>
+      userEmail != null || password != null || userName != null;
 
   @computed
   bool get hasErrorsInRegister =>
-      userEmail != null || password != null || confirmPassword != null;
+      userEmail != null ||
+      password != null ||
+      // confirmPassword != null ||
+      userName != null;
 
   @computed
   bool get hasErrorInForgotPassword => userEmail != null;

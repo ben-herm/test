@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/local/constants/db_constants.dart';
-import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
-import 'package:boilerplate/data/network/apis/posts/post_api.dart';
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/utils/encryption/xxtea.dart';
+import 'package:Relievion/data/local/constants/db_constants.dart';
+import 'package:Relievion/data/local/datasources/post/post_datasource.dart';
+import 'package:Relievion/data/network/apis/posts/post_api.dart';
+import 'package:Relievion/data/repository.dart';
+import 'package:Relievion/data/sharedpref/shared_preference_helper.dart';
+import 'package:Relievion/utils/encryption/xxtea.dart';
 import 'package:inject/inject.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';

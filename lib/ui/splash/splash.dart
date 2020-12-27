@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:boilerplate/constants/assets.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/routes.dart';
-import 'package:boilerplate/widgets/app_icon_widget.dart';
+import 'package:Relievion/constants/assets.dart';
+import 'package:Relievion/data/sharedpref/constants/preferences.dart';
+import 'package:Relievion/routes.dart';
+import 'package:Relievion/widgets/app_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Material(
       child: Center(child: AppIconWidget(image: Assets.appLogo)),
     );
@@ -38,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (preferences.getBool(Preferences.is_logged_in) ?? false) {
       Navigator.of(context).pushReplacementNamed(Routes.home);
     } else {
-      Navigator.of(context).pushReplacementNamed(Routes.login);
+      Navigator.of(context).pushReplacementNamed(Routes.onboarding);
     }
   }
 }

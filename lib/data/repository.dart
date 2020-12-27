@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:Relievion/data/local/datasources/post/post_datasource.dart';
+import 'package:Relievion/data/sharedpref/shared_preference_helper.dart';
+import 'package:Relievion/models/post/post.dart';
+import 'package:Relievion/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
 import 'local/constants/db_constants.dart';

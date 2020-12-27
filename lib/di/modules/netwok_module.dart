@@ -1,10 +1,10 @@
-import 'package:boilerplate/data/network/apis/posts/post_api.dart';
-import 'package:boilerplate/data/network/constants/endpoints.dart';
-import 'package:boilerplate/data/network/dio_client.dart';
-import 'package:boilerplate/data/network/rest_client.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/di/modules/preference_module.dart';
+import 'package:Relievion/data/network/apis/posts/post_api.dart';
+import 'package:Relievion/data/network/constants/endpoints.dart';
+import 'package:Relievion/data/network/dio_client.dart';
+import 'package:Relievion/data/network/rest_client.dart';
+import 'package:Relievion/data/sharedpref/constants/preferences.dart';
+import 'package:Relievion/data/sharedpref/shared_preference_helper.dart';
+import 'package:Relievion/di/modules/preference_module.dart';
 import 'package:dio/dio.dart';
 import 'package:inject/inject.dart';
 import 'package:shared_preferences/shared_preferences.dart';

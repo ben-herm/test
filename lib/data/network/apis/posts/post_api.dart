@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/network/constants/endpoints.dart';
-import 'package:boilerplate/data/network/dio_client.dart';
-import 'package:boilerplate/data/network/rest_client.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:Relievion/data/network/constants/endpoints.dart';
+import 'package:Relievion/data/network/dio_client.dart';
+import 'package:Relievion/data/network/rest_client.dart';
+import 'package:Relievion/models/post/post_list.dart';
 
 class PostApi {
   // dio instance

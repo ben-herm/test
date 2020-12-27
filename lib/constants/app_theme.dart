@@ -1,5 +1,5 @@
-import 'package:boilerplate/constants/colors.dart';
-import 'package:boilerplate/constants/font_family.dart';
+import 'package:Relievion/constants/colors.dart';
+import 'package:Relievion/constants/font_family.dart';
 /**
  * Creating custom color palettes is part of creating a custom app. The idea is to create
  * your class of custom colors, in this case `CompanyColors` and then create a `ThemeData`
@@ -32,8 +32,7 @@ final ThemeData themeData = new ThemeData(
     primaryColor: AppColors.orange[500],
     primaryColorBrightness: Brightness.light,
     accentColor: AppColors.orange[500],
-    accentColorBrightness: Brightness.light
-);
+    accentColorBrightness: Brightness.light);
 
 final ThemeData themeDataDark = ThemeData(
   fontFamily: FontFamily.productSans,

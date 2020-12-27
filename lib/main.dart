@@ -1,15 +1,15 @@
-import 'package:boilerplate/constants/app_theme.dart';
-import 'package:boilerplate/constants/strings.dart';
-import 'package:boilerplate/di/components/app_component.dart';
-import 'package:boilerplate/di/modules/local_module.dart';
-import 'package:boilerplate/di/modules/netwok_module.dart';
-import 'package:boilerplate/di/modules/preference_module.dart';
-import 'package:boilerplate/routes.dart';
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/ui/splash/splash.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
+import 'package:Relievion/constants/app_theme.dart';
+import 'package:Relievion/constants/strings.dart';
+import 'package:Relievion/di/components/app_component.dart';
+import 'package:Relievion/di/modules/local_module.dart';
+import 'package:Relievion/di/modules/netwok_module.dart';
+import 'package:Relievion/di/modules/preference_module.dart';
+import 'package:Relievion/routes.dart';
+import 'package:Relievion/stores/language/language_store.dart';
+import 'package:Relievion/stores/post/post_store.dart';
+import 'package:Relievion/stores/theme/theme_store.dart';
+import 'package:Relievion/ui/splash/splash.dart';
+import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,8 +25,6 @@ void main() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeRight,
-    DeviceOrientation.landscapeLeft,
   ]).then((_) async {
     appComponent = await AppComponent.create(
       NetworkModule(),
@@ -61,7 +59,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: Strings.appName,
-            theme: _themeStore.darkMode ? themeDataDark : themeData,
+            // theme: _themeStore.darkMode ? themeDataDark : themeData,
             routes: Routes.routes,
             locale: Locale(_languageStore.locale),
             supportedLocales: _languageStore.supportedLanguages
