@@ -3,8 +3,11 @@ import 'package:Relievion/routes.dart';
 import 'package:Relievion/stores/form/form_store.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:Relievion/widgets/empty_app_bar_widget.dart';
+import 'package:Relievion/utils/device/device_utils.dart';
+import 'package:flutter/services.dart';
 import 'package:Relievion/widgets/progress_indicator_widget.dart';
+import 'package:Relievion/widgets/textfield_widget.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +24,30 @@ import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../stores/form/form_store.dart';
+import '../../../stores/form/form_store.dart';
 
-class EmailConfirmation extends StatefulWidget {
+class QuestionnaireScreen extends StatefulWidget {
   @override
-  _EmailConfirmationState createState() => _EmailConfirmationState();
+  _QuestionnaireScreenState createState() => _QuestionnaireScreenState();
 }
 
-class _EmailConfirmationState extends State<EmailConfirmation> {
+class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   //stores:---------------------------------------------------------------------
   ThemeStore _themeStore;
+  TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
+  //focus node:---------------------------------------------------------------------
+  FocusNode _yobFocusNode;
 
-  //stores:---------------------------------------------------------------------
+  // FocusNode _emailFocusNode;
+
+  // FocusNode _nameFocusNode;
+
   // FormStore _store;
+
+  //text controllers:-----------------------------------------------------------
+  TextEditingController _userYobController = TextEditingController();
+  TextEditingController _userHeightController = TextEditingController();
+  TextEditingController _userWeightController = TextEditingController();
 
   @override
   void initState() {
@@ -48,6 +62,7 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
 
   @override
   Widget build(BuildContext context) {
+    final _store = Provider.of<UserStore>(context);
     return Scaffold(
       primary: true,
       resizeToAvoidBottomPadding: false,
@@ -57,15 +72,15 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
         ),
         title: Text("Sample"),
         centerTitle: true,
-                backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: _buildBody(),
+      body: _buildBody(_store),
     );
   }
 
   // body methods:--------------------------------------------------------------
-  Widget _buildBody() {
+  Widget _buildBody(_store) {
     final _store = Provider.of<UserStore>(context);
     return Material(
         child: SingleChildScrollView(
@@ -80,7 +95,7 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
                     // ),
                     Expanded(
                       flex: 1,
-                      child: _buildRightSide(),
+                      child: _buildRightSide(_store),
                     ),
                   ],
                 )
@@ -89,7 +104,7 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
                   child: SafeArea(
                     child: Column(
                       children: [
-                        _buildRightSide(),
+                        _buildRightSide(_store),
                         // Observer(
                         //   builder: (context) {
                         //     return _store.success
@@ -114,9 +129,50 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
     ));
   }
 
-  Widget _buildRightSide() {
-    final store = Provider.of<UserStore>(context);
-    TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 25);
+  Widget _buildYobField(_store) {
+    return Column(
+      children: <Widget>[
+        Text(AppLocalizations.of(context).translate('yob'), style: titleStyle),
+        SizedBox(height: 6.0),
+        Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
+        Text(AppLocalizations.of(context).translate('yobSub'),
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.black,
+              fontSize: 15,
+            )),
+        SizedBox(height: 24.0),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.75,
+          child: Observer(
+            builder: (context) {
+              return TextFieldWidget(
+                hint: AppLocalizations.of(context).translate('User'),
+                isObscure: false,
+                textAlign: TextAlign.center,
+                // icon: Icons.lock,
+                // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
+                textController: _userYobController,
+                focusNode: _yobFocusNode,
+                errorText: _store.formErrorStore.userYob,
+                onChanged: (value) {
+                  _store.setUserYob(_userYobController.text);
+                },
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(4)
+                ],
+              );
+            },
+          ),
+        ),
+        SizedBox(height: 30.0),
+        _buildNextButton(_store)
+      ],
+    );
+  }
+
+  Widget _buildRightSide(_store) {
     TextStyle subTitleStyle = TextStyles.body;
     if (AppTheme.fullWidth(context) < 393) {
       titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
@@ -131,83 +187,69 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Column(children: [
-              Text(
-                AppLocalizations.of(context).translate('confirmAccount'),
-                style: titleStyle,
-              ),
-              SizedBox(height: 24.0),
-              Padding(padding: EdgeInsets.fromLTRB(25, 0, 25, 0)),
-
               Text.rich(
                 TextSpan(
-                    text: AppLocalizations.of(context)
-                        .translate('confirmEmailTxt1'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
+                    text: _store.userName + ', ',
+                    style: titleStyle,
                     children: <TextSpan>[
                       TextSpan(
-                        text: store.userEmail,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 14,
-                        ),
+                        text:
+                            AppLocalizations.of(context).translate('getToKnow'),
+                        style: titleStyle,
                       )
                     ]),
                 textAlign: TextAlign.center,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: Text(
-                  AppLocalizations.of(context).translate('confirmEmailTxt2'),
+              SizedBox(height: 6.0),
+              Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
+              Text(AppLocalizations.of(context).translate('getToKnowSub'),
                   style: TextStyle(
-                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
                     color: Colors.black,
-                    // decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-              Container(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: Color.fromRGBO(0, 0, 0, 1), width: 1.0))),
-                  child: RichText(
-                    text: TextSpan(
-                        text: AppLocalizations.of(context)
-                            .translate('resendEmail'),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          // decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).pushNamed(Routes.questionnaire);
-                          }),
-                  ))
-
-              // Text(
-              //   AppLocalizations.of(context).translate('confirmEmailTxt1'),
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-              // ),
-              // SizedBox(height: 24.0),
-              // Text(
-              //   AppLocalizations.of(context).translate('confirmEmailTxt2'),
-              //   style: subTitleStyle,
-              // )
+                    fontSize: 15,
+                  )),
+              SizedBox(height: 60.0),
+              Column(
+                children: <Widget>[
+                  _buildYobField(_store),
+                ],
+              )
             ]),
-            // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
             SizedBox(height: 20.0),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildNextButton(_store) {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.70,
+          height: MediaQuery.of(context).size.width * 0.10,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.grey.shade800),
+            ),
+            child: Text(AppLocalizations.of(context).translate('nextBtn'),
+                style: TextStyle(
+                  fontSize: 18,
+                )),
+            onPressed: () async {
+              if (_store.isYobSet) {
+                DeviceUtils.hideKeyboard(context);
+                // await _store.register();
+                // Navigator.of(context).pushNamed(Routes.emailConfirmation);
+                // Navigator.of(context).pushNamed(Routes.register);
+                          _showErrorMessage('succcess');
+              } else {
+                _showErrorMessage('Please fill in all fields');
+              }
+            },
+          ),
+        ));
   }
 
   Widget navigate(BuildContext context) {

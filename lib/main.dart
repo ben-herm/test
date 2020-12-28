@@ -17,6 +17,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:inject/inject.dart';
 import 'package:provider/provider.dart';
 
+import 'stores/form/form_store.dart';
+import 'stores/form/form_store.dart';
+
 // global instance for app component
 AppComponent appComponent;
 
@@ -44,6 +47,7 @@ class MyApp extends StatelessWidget {
   // with Hot Reload than creating it directly in the `build` function.
   final ThemeStore _themeStore = ThemeStore(appComponent.getRepository());
   final PostStore _postStore = PostStore(appComponent.getRepository());
+  final UserStore _userStore = UserStore(appComponent.getRepository());
   final LanguageStore _languageStore =
       LanguageStore(appComponent.getRepository());
 
@@ -54,6 +58,7 @@ class MyApp extends StatelessWidget {
         Provider<ThemeStore>(create: (_) => _themeStore),
         Provider<PostStore>(create: (_) => _postStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
+        Provider<UserStore>(create: (_) => _userStore),
       ],
       child: Observer(
         name: 'global-observer',

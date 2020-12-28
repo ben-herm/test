@@ -6,6 +6,7 @@ import 'ui/register/register.dart';
 import 'ui/splash/splash.dart';
 import 'ui/register/emailConfirmation.dart';
 import 'ui/onboarding/onboarding.dart';
+import 'ui/register/questionnaire/questionnaire.dart';
 
 class Routes {
   Routes._();
@@ -18,6 +19,7 @@ class Routes {
   //register routes
   static const String register = '/register';
   static const String emailConfirmation = '/emailConfirmation';
+  static const String questionnaire = '/questionnaire';
 
   //login routes
   static const String login = '/login';
@@ -46,6 +48,7 @@ class Routes {
     register: (BuildContext context) => RegisterScreen(),
     emailConfirmation: (BuildContext context) => EmailConfirmation(),
     login: (BuildContext context) => LoginScreen(),
+    questionnaire: (BuildContext context) => QuestionnaireScreen(),
     onboarding: (BuildContext context) => Onboarding(),
     home: (BuildContext context) => HomeScreen(),
   };

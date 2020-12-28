@@ -49,6 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   //stores:---------------------------------------------------------------------
   ThemeStore _themeStore;
+  // FormStore _store;
 
   //focus node:-----------------------------------------------------------------
   FocusNode _passwordFocusNode;
@@ -58,7 +59,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   FocusNode _nameFocusNode;
 
   //stores:---------------------------------------------------------------------
-  final _store = FormStore();
 
   @override
   void initState() {
@@ -91,16 +91,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _store = Provider.of<UserStore>(context);
     return Scaffold(
       primary: true,
       resizeToAvoidBottomPadding: false,
-      appBar: EmptyAppBar(),
-      body: _buildBody(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        title: Text("Sample"),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      body: _buildBody(_store),
     );
   }
 
   // body methods:--------------------------------------------------------------
-  Widget _buildBody() {
+  Widget _buildBody(_store) {
     return Material(
         child: SingleChildScrollView(
       child: Stack(
@@ -114,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // ),
                     Expanded(
                       flex: 1,
-                      child: _buildRightSide(),
+                      child: _buildRightSide(_store),
                     ),
                   ],
                 )
@@ -123,15 +132,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: SafeArea(
                     child: Column(
                       children: [
-                        _buildRightSide(),
-                        Observer(
-                          builder: (context) {
-                            return _store.success
-                                ? navigate(context)
-                                : _showErrorMessage(
-                                    _store.errorStore.errorMessage);
-                          },
-                        ),
+                        _buildRightSide(_store),
+                        // Observer(
+                        //   builder: (context) {
+                        //     return _store.success
+                        //         ? navigate(context)
+                        //         : _showErrorMessage(
+                        //             _store.errorStore.errorMessage);
+                        //   },
+                        // ),
                         Observer(
                           builder: (context) {
                             return Visibility(
@@ -157,8 +166,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //   );
   // }
 
-  Widget _buildRightSide() {
-    TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 25);
+  Widget _buildRightSide(_store) {
+    TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
     TextStyle subTitleStyle = TextStyles.title.copyWith(fontSize: 20);
     if (AppTheme.fullWidth(context) < 393) {
       titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
@@ -188,20 +197,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   : SizedBox(height: 1);
             }),
             // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
-            _buildUserNameField(),
-            _buildUserEmailField(),
-            _buildPasswordField(),
+            _buildUserNameField(_store),
+            _buildUserEmailField(_store),
+            _buildPasswordField(_store),
             // _buildForgotPasswordButton(),
             privacyPolicyLinkAndTermsOfService(),
             SizedBox(height: 20.0),
-            _buildSignInButton()
+            _buildNextButton(_store)
           ],
         ),
       ),
     );
   }
 
-  Widget _buildUserNameField() {
+  Widget _buildUserNameField(_store) {
     return Column(
       children: <Widget>[
         Align(
@@ -286,7 +295,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildUserEmailField() {
+  Widget _buildUserEmailField(_store) {
     return Column(
       children: <Widget>[
         Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
@@ -324,7 +333,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPasswordField() {
+  Widget _buildPasswordField(_store) {
     return Column(
       children: <Widget>[
         KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
@@ -379,7 +388,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //   );
   // }
 
-  Widget _buildSignInButton() {
+  Widget _buildNextButton(_store) {
     return Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
         child: SizedBox(
@@ -397,7 +406,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onPressed: () async {
               if (_store.canRegister) {
                 DeviceUtils.hideKeyboard(context);
-                await _store.register();
+                // await _store.register();
                 Navigator.of(context).pushNamed(Routes.emailConfirmation);
                 // Navigator.of(context).pushNamed(Routes.register);
               } else {
@@ -409,13 +418,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget navigate(BuildContext context) {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
-    });
+    //sets if logged in
+    // SharedPreferences.getInstance().then((prefs) {
+    //   prefs.setBool(Preferences.is_logged_in, true);
+    // });
 
     Future.delayed(Duration(milliseconds: 0), () {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamed(Routes.emailConfirmation);
     });
 
     return Container();

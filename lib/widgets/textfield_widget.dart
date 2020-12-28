@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 class TextFieldWidget extends StatelessWidget {
   final IconData icon;
   final String hint;
@@ -10,10 +10,12 @@ class TextFieldWidget extends StatelessWidget {
   final TextEditingController textController;
   final EdgeInsets padding;
   final Color hintColor;
+  final TextAlign textAlign;
   final Color iconColor;
   final FocusNode focusNode;
   final ValueChanged onFieldSubmitted;
   final ValueChanged onChanged;
+  final List<TextInputFormatter> inputFormatters;
   final bool autoFocus;
   final TextInputAction inputAction;
 
@@ -21,9 +23,11 @@ class TextFieldWidget extends StatelessWidget {
     Key key,
     this.icon,
     this.hint,
+    this.textAlign,
     this.errorText,
     this.isObscure = false,
     this.inputType,
+    this.inputFormatters,
     this.textController,
     this.isIcon = true,
     this.padding = const EdgeInsets.all(0),
@@ -43,6 +47,7 @@ class TextFieldWidget extends StatelessWidget {
       child: TextFormField(
         controller: textController,
         focusNode: focusNode,
+        textAlign: this.textAlign != null ?  this.textAlign: TextAlign.start,
         onFieldSubmitted: onFieldSubmitted,
         onChanged: onChanged,
         autofocus: autoFocus,
@@ -50,7 +55,7 @@ class TextFieldWidget extends StatelessWidget {
         obscureText: this.isObscure,
         maxLength: 25,
         keyboardType: this.inputType,
-        style: Theme.of(context).textTheme.body1,
+        style: TextStyle(fontSize: 20),
         decoration: InputDecoration(
           hintText: this.hint,
           hintStyle:
@@ -59,6 +64,7 @@ class TextFieldWidget extends StatelessWidget {
           counterText: '',
           border: OutlineInputBorder(),
         ),
+        inputFormatters: this.inputFormatters
       ),
     );
   }

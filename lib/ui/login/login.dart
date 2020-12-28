@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode _passwordFocusNode;
 
   //stores:---------------------------------------------------------------------
-  final _store = FormStore();
+  UserStore _store;
 
   @override
   void initState() {

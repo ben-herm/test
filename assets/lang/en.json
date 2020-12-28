@@ -39,7 +39,24 @@
   "confirmEmailTxt1": "We've sent you a link to confirm you email address ",
   "confirmEmailTxt2": "Please check your inbox",
   "resendEmail": "Resend email",
-  "register_end": "-------------------------------------------------------------------------------------"
+  "register_end": "-------------------------------------------------------------------------------------",
 
-
+  "questionnaire_start": "Below are list of strings for register screen",
+  "getToKnow": "Let's get to know you",
+  "getToKnowSub": "To make your tailor made treatment plan",
+  "yob": "Your Year of birth",
+  "yobSub": "Your treatment will be tailored to your age",
+  "sex": "Your Sex",
+  "maleSex": "Male",
+  "femaleSex": "Male",
+  "sexSub": "Some biological differences affect treatment",
+  "userHeight": "Your Height",
+  "weightHeightSub": "We adjust the treatment based on your BMI",
+  "cm": "cm",
+  "userWeight": "Your Weight",
+  "kg": "kg",
+  "headachePerMonth": "How many headache days \n do you have per month",
+  "days": "Days",
+  "moreThen": "More than",
+  "questionnaireNextBtn": "Next"
 }

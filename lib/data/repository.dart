@@ -84,4 +84,7 @@ class Repository {
       _sharedPrefsHelper.changeLanguage(value);
 
   Future<String> get currentLanguage => _sharedPrefsHelper.currentLanguage;
+
+  // user: -----------------------------------------------------------------
+
 }

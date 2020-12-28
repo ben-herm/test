@@ -1,21 +1,29 @@
 import 'package:Relievion/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
+
 import 'package:validators/validators.dart';
+
+import '../../data/repository.dart';
 
 part 'form_store.g.dart';
 
-class FormStore = _FormStore with _$FormStore;
+class UserStore = _UserStore with _$UserStore;
 
-abstract class _FormStore with Store {
+abstract class _UserStore with Store {
+  Repository _repository;
+  //   _FormStore() {
+  //   _setupValidations();
+  // }
+
+  _UserStore(Repository repository) : this._repository = repository {
+    _setupValidations();
+  }
+
   // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
 
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
-
-  _FormStore() {
-    _setupValidations();
-  }
 
   // disposers:-----------------------------------------------------------------
   List<ReactionDisposer> _disposers;
@@ -25,7 +33,8 @@ abstract class _FormStore with Store {
       reaction((_) => userName, validateUserName),
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
-      reaction((_) => confirmPassword, validateConfirmPassword)
+      reaction((_) => confirmPassword, validateConfirmPassword),
+      reaction((_) => userYoB, validateUserYob),
     ];
   }
 
@@ -43,7 +52,25 @@ abstract class _FormStore with Store {
   String confirmPassword = '';
 
   @observable
+  int userYoB;
+
+  @observable
+  String userSex;
+
+  @observable
+  String userHeight;
+
+  @observable
+  String userWeight;
+
+  @observable
+  String userHeadacheDays;
+
+  @observable
   bool success = false;
+
+  @observable
+  String userMedication = '';
 
   @observable
   bool loading = false;
@@ -61,6 +88,9 @@ abstract class _FormStore with Store {
       userEmail.isNotEmpty &&
       password.isNotEmpty;
   // confirmPasswsord.isNotEmpty;
+
+  @computed
+  bool get isYobSet => !formErrorStore.hasErrorInYearSelection;
 
   @computed
   bool get canForgetPassword =>
@@ -85,6 +115,36 @@ abstract class _FormStore with Store {
   @action
   void setConfirmPassword(String value) {
     confirmPassword = value;
+  }
+
+  @action
+  void setUserYob(int value) {
+    userYoB = value;
+  }
+
+  @action
+  void setUserSex(String value) {
+    userSex = value;
+  }
+
+  @action
+  void setUserHeight(String value) {
+    userHeight = value;
+  }
+
+  @action
+  void setUserWeight(String value) {
+    userWeight = value;
+  }
+
+  @action
+  void setUserHeadacheDays(String value) {
+    userHeadacheDays = value;
+  }
+
+  @action
+  void setUsermedication(String value) {
+    userMedication = value;
   }
 
   @action
@@ -132,12 +192,24 @@ abstract class _FormStore with Store {
   }
 
   @action
+  void validateUserYob(int value) {
+    var date = new DateTime.now().toString();
+
+    var dateParse = DateTime.parse(date);
+    if (value > dateParse.year || value < 1990) {
+      formErrorStore.userYob = "Please set a valid year";
+    } else {
+      formErrorStore.userName = null;
+    }
+  }
+
+  @action
   Future register() async {
     loading = true;
 
     Future.delayed(Duration(milliseconds: 1000)).then((future) {
       loading = false;
-      // success = true;
+      success = true;
     }).catchError((e) {
       loading = false;
       success = false;
@@ -204,6 +276,9 @@ abstract class _FormErrorStore with Store {
   @observable
   String confirmPassword;
 
+  @observable
+  String userYob;
+
   @computed
   bool get hasErrorsInLogin =>
       userEmail != null || password != null || userName != null;
@@ -217,4 +292,7 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInForgotPassword => userEmail != null;
+
+  @computed
+  bool get hasErrorInYearSelection => userYob != null;
 }

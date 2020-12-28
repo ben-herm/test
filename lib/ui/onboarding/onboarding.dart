@@ -94,17 +94,12 @@ class _OnboardingState extends State<Onboarding> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SafeArea(
-              child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Image.asset('assets/images/logo.png',
-                      fit: BoxFit.contain)),
-            ),
+            Image.asset('assets/images/logo.png', fit: BoxFit.contain),
             Text(
               AppLocalizations.of(context).translate('welcome'),
               style: titleStyle,
             ),
-            SizedBox(width: 10, height: 3),
+            // SizedBox(width: 5, height: 3),
             Text(
               AppLocalizations.of(context).translate('welcomeSub'),
               style: subTitleStyle,
@@ -202,7 +197,7 @@ class _OnboardingState extends State<Onboarding> {
                     Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: _buildRightSide(titleStyle, subTitleStyle),
                         )),
                   ],
