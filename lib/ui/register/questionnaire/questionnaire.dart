@@ -90,7 +90,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             ),
             title: Text(_step.toString()),
             centerTitle: true,
-            // backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
             elevation: 0.0,
           ),
           body: _buildBody(_store),
@@ -191,6 +191,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   Widget buildMain(_store) {
+    print("storeeeee" + _store.toString());
     switch (_step) {
       case 0:
         return Yob(store: _store, callBack: setNextActionByType);
