@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:Relievion/routes.dart';
+import 'package:Relievion/stores/form/form_store.dart';
+import 'package:provider/provider.dart';
 import 'package:Relievion/stores/theme/light_color.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
@@ -32,7 +34,8 @@ class _OnboardingState extends State<Onboarding> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool(Preferences.is_logged_in, true);
     });
-
+    final _store = Provider.of<UserStore>(context);
+    print('onboarding: ' + _store.toString());
     Future.delayed(Duration(milliseconds: 0), () {
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.home, (Route<dynamic> route) => false);

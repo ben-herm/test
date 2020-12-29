@@ -28,6 +28,26 @@ mixin _$UserStore on _UserStore, Store {
   bool get isYobSet => (_$isYobSetComputed ??=
           Computed<bool>(() => super.isYobSet, name: '_UserStore.isYobSet'))
       .value;
+  Computed<bool> _$isSexSetComputed;
+
+  @override
+  bool get isSexSet => (_$isSexSetComputed ??=
+          Computed<bool>(() => super.isSexSet, name: '_UserStore.isSexSet'))
+      .value;
+  Computed<bool> _$isHeightSetComputed;
+
+  @override
+  bool get isHeightSet =>
+      (_$isHeightSetComputed ??= Computed<bool>(() => super.isHeightSet,
+              name: '_UserStore.isHeightSet'))
+          .value;
+  Computed<bool> _$isWeightSetComputed;
+
+  @override
+  bool get isWeightSet =>
+      (_$isWeightSetComputed ??= Computed<bool>(() => super.isWeightSet,
+              name: '_UserStore.isWeightSet'))
+          .value;
   Computed<bool> _$canForgetPasswordComputed;
 
   @override
@@ -129,13 +149,13 @@ mixin _$UserStore on _UserStore, Store {
   final _$userHeightAtom = Atom(name: '_UserStore.userHeight');
 
   @override
-  String get userHeight {
+  double get userHeight {
     _$userHeightAtom.reportRead();
     return super.userHeight;
   }
 
   @override
-  set userHeight(String value) {
+  set userHeight(double value) {
     _$userHeightAtom.reportWrite(value, super.userHeight, () {
       super.userHeight = value;
     });
@@ -144,13 +164,13 @@ mixin _$UserStore on _UserStore, Store {
   final _$userWeightAtom = Atom(name: '_UserStore.userWeight');
 
   @override
-  String get userWeight {
+  double get userWeight {
     _$userWeightAtom.reportRead();
     return super.userWeight;
   }
 
   @override
-  set userWeight(String value) {
+  set userWeight(double value) {
     _$userWeightAtom.reportWrite(value, super.userWeight, () {
       super.userWeight = value;
     });
@@ -313,7 +333,7 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void setUserHeight(String value) {
+  void setUserHeight(double value) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.setUserHeight');
     try {
@@ -324,7 +344,7 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void setUserWeight(String value) {
+  void setUserWeight(double value) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.setUserWeight');
     try {
@@ -401,6 +421,39 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  void validateUserYob(int value) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.validateUserYob');
+    try {
+      return super.validateUserYob(value);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateUserHeight(double value) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.validateUserHeight');
+    try {
+      return super.validateUserHeight(value);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateUserWeight(double value) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.validateUserWeight');
+    try {
+      return super.validateUserWeight(value);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 userName: ${userName},
@@ -418,6 +471,9 @@ loading: ${loading},
 canLogin: ${canLogin},
 canRegister: ${canRegister},
 isYobSet: ${isYobSet},
+isSexSet: ${isSexSet},
+isHeightSet: ${isHeightSet},
+isWeightSet: ${isWeightSet},
 canForgetPassword: ${canForgetPassword}
     ''';
   }
@@ -444,6 +500,34 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
   bool get hasErrorInForgotPassword => (_$hasErrorInForgotPasswordComputed ??=
           Computed<bool>(() => super.hasErrorInForgotPassword,
               name: '_FormErrorStore.hasErrorInForgotPassword'))
+      .value;
+  Computed<bool> _$hasErrorInYearSelectionComputed;
+
+  @override
+  bool get hasErrorInYearSelection => (_$hasErrorInYearSelectionComputed ??=
+          Computed<bool>(() => super.hasErrorInYearSelection,
+              name: '_FormErrorStore.hasErrorInYearSelection'))
+      .value;
+  Computed<bool> _$hasErrorInSexSelectionComputed;
+
+  @override
+  bool get hasErrorInSexSelection => (_$hasErrorInSexSelectionComputed ??=
+          Computed<bool>(() => super.hasErrorInSexSelection,
+              name: '_FormErrorStore.hasErrorInSexSelection'))
+      .value;
+  Computed<bool> _$hasErrorInHeightSelectionComputed;
+
+  @override
+  bool get hasErrorInHeightSelection => (_$hasErrorInHeightSelectionComputed ??=
+          Computed<bool>(() => super.hasErrorInHeightSelection,
+              name: '_FormErrorStore.hasErrorInHeightSelection'))
+      .value;
+  Computed<bool> _$hasErrorInWeightSelectionComputed;
+
+  @override
+  bool get hasErrorInWeightSelection => (_$hasErrorInWeightSelectionComputed ??=
+          Computed<bool>(() => super.hasErrorInWeightSelection,
+              name: '_FormErrorStore.hasErrorInWeightSelection'))
       .value;
 
   final _$userNameAtom = Atom(name: '_FormErrorStore.userName');
@@ -506,6 +590,66 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$userYobAtom = Atom(name: '_FormErrorStore.userYob');
+
+  @override
+  String get userYob {
+    _$userYobAtom.reportRead();
+    return super.userYob;
+  }
+
+  @override
+  set userYob(String value) {
+    _$userYobAtom.reportWrite(value, super.userYob, () {
+      super.userYob = value;
+    });
+  }
+
+  final _$userSexAtom = Atom(name: '_FormErrorStore.userSex');
+
+  @override
+  String get userSex {
+    _$userSexAtom.reportRead();
+    return super.userSex;
+  }
+
+  @override
+  set userSex(String value) {
+    _$userSexAtom.reportWrite(value, super.userSex, () {
+      super.userSex = value;
+    });
+  }
+
+  final _$userHeightAtom = Atom(name: '_FormErrorStore.userHeight');
+
+  @override
+  String get userHeight {
+    _$userHeightAtom.reportRead();
+    return super.userHeight;
+  }
+
+  @override
+  set userHeight(String value) {
+    _$userHeightAtom.reportWrite(value, super.userHeight, () {
+      super.userHeight = value;
+    });
+  }
+
+  final _$userWeightAtom = Atom(name: '_FormErrorStore.userWeight');
+
+  @override
+  String get userWeight {
+    _$userWeightAtom.reportRead();
+    return super.userWeight;
+  }
+
+  @override
+  set userWeight(String value) {
+    _$userWeightAtom.reportWrite(value, super.userWeight, () {
+      super.userWeight = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -513,9 +657,17 @@ userName: ${userName},
 userEmail: ${userEmail},
 password: ${password},
 confirmPassword: ${confirmPassword},
+userYob: ${userYob},
+userSex: ${userSex},
+userHeight: ${userHeight},
+userWeight: ${userWeight},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
-hasErrorInForgotPassword: ${hasErrorInForgotPassword}
+hasErrorInForgotPassword: ${hasErrorInForgotPassword},
+hasErrorInYearSelection: ${hasErrorInYearSelection},
+hasErrorInSexSelection: ${hasErrorInSexSelection},
+hasErrorInHeightSelection: ${hasErrorInHeightSelection},
+hasErrorInWeightSelection: ${hasErrorInWeightSelection}
     ''';
   }
 }

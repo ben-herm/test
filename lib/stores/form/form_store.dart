@@ -35,6 +35,14 @@ abstract class _UserStore with Store {
       reaction((_) => password, validatePassword),
       reaction((_) => confirmPassword, validateConfirmPassword),
       reaction((_) => userYoB, validateUserYob),
+      reaction(
+        (_) => userHeight,
+        validateUserHeight,
+      ),
+      reaction(
+        (_) => userWeight,
+        validateUserWeight,
+      )
     ];
   }
 
@@ -58,10 +66,10 @@ abstract class _UserStore with Store {
   String userSex;
 
   @observable
-  String userHeight;
+  double userHeight;
 
   @observable
-  String userWeight;
+  double userWeight;
 
   @observable
   String userHeadacheDays;
@@ -90,7 +98,20 @@ abstract class _UserStore with Store {
   // confirmPasswsord.isNotEmpty;
 
   @computed
-  bool get isYobSet => !formErrorStore.hasErrorInYearSelection;
+  bool get isYobSet =>
+      !formErrorStore.hasErrorInYearSelection && userYoB != null;
+
+  @computed
+  bool get isSexSet =>
+      !formErrorStore.hasErrorInSexSelection && userSex != null;
+
+  @computed
+  bool get isHeightSet =>
+      !formErrorStore.hasErrorInHeightSelection && userHeight != null;
+
+  @computed
+  bool get isWeightSet =>
+      !formErrorStore.hasErrorInWeightSelection && userWeight != null;
 
   @computed
   bool get canForgetPassword =>
@@ -128,12 +149,12 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void setUserHeight(String value) {
+  void setUserHeight(double value) {
     userHeight = value;
   }
 
   @action
-  void setUserWeight(String value) {
+  void setUserWeight(double value) {
     userWeight = value;
   }
 
@@ -195,11 +216,38 @@ abstract class _UserStore with Store {
   void validateUserYob(int value) {
     var date = new DateTime.now().toString();
 
-    var dateParse = DateTime.parse(date);
-    if (value > dateParse.year || value < 1990) {
+    var year = DateTime.parse(date).year;
+    // print('year: ' + year.toString());
+    // print('value: ' + value.toString());
+    var isInt = value is int;
+    if (!isInt || value > year || value < 1900) {
       formErrorStore.userYob = "Please set a valid year";
     } else {
-      formErrorStore.userName = null;
+      formErrorStore.userYob = null;
+    }
+  }
+
+  @action
+  void validateUserHeight(double value) {
+    var compare1 = value.compareTo(2.3);
+    var compare2 = value.compareTo(1.3);
+    if (compare1 == 1 || compare2 == -1) {
+      print('hell1111o');
+      formErrorStore.userHeight = "Please set a valid height";
+    } else {
+      print('hello');
+      formErrorStore.userHeight = null;
+    }
+  }
+
+  @action
+  void validateUserWeight(double value) {
+    var compare1 = value.compareTo(500);
+    var compare2 = value.compareTo(30);
+    if (compare1 == 1 || compare2 == -1) {
+      formErrorStore.userWeight = "Please set a valid weight";
+    } else {
+      formErrorStore.userWeight = null;
     }
   }
 
@@ -258,6 +306,9 @@ abstract class _UserStore with Store {
     validatePassword(password);
     validateUserEmail(userEmail);
     validateUserName(userName);
+    validateUserYob(userYoB);
+    validateUserHeight(userHeight);
+    validateUserWeight(userWeight);
   }
 }
 
@@ -279,6 +330,15 @@ abstract class _FormErrorStore with Store {
   @observable
   String userYob;
 
+  @observable
+  String userSex;
+
+  @observable
+  String userHeight;
+
+  @observable
+  String userWeight;
+
   @computed
   bool get hasErrorsInLogin =>
       userEmail != null || password != null || userName != null;
@@ -295,4 +355,13 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInYearSelection => userYob != null;
+
+  @computed
+  bool get hasErrorInSexSelection => userSex != null;
+
+  @computed
+  bool get hasErrorInHeightSelection => userHeight != null;
+
+  @computed
+  bool get hasErrorInWeightSelection => userWeight != null;
 }

@@ -2,6 +2,8 @@ import 'package:Relievion/data/sharedpref/constants/preferences.dart';
 import 'package:Relievion/routes.dart';
 import 'package:Relievion/stores/form/form_store.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
+import 'package:Relievion/ui/register/questionnaire/widgets/userMeasurments.dart';
+import 'package:Relievion/ui/register/questionnaire/widgets/userSex.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:Relievion/utils/device/device_utils.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +24,10 @@ import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:Relievion/data/sharedpref/constants/preferences.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
+import 'package:Relievion/ui/register/questionnaire/widgets/yob.dart';
 
 import '../../../stores/form/form_store.dart';
 
@@ -32,20 +37,23 @@ class QuestionnaireScreen extends StatefulWidget {
 }
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
+  // inputValues:--------------------------------------------------------
+
+  //steps controller:--------------------------------------------------------
+  int _step = 0;
+  void _increaseStep(int value) => setState(() => _step = _step + value);
+  void _decreaseStep(int value) =>
+      setState(() => _step != 0 ? _step = _step - value : _step);
   //stores:---------------------------------------------------------------------
   ThemeStore _themeStore;
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
-  //focus node:---------------------------------------------------------------------
-  FocusNode _yobFocusNode;
-
-  // FocusNode _emailFocusNode;
-
-  // FocusNode _nameFocusNode;
 
   // FormStore _store;
 
   //text controllers:-----------------------------------------------------------
-  TextEditingController _userYobController = TextEditingController();
+
+  FocusNode _heightFocusNode;
+  FocusNode _weightFocusNode;
   TextEditingController _userHeightController = TextEditingController();
   TextEditingController _userWeightController = TextEditingController();
 
@@ -60,23 +68,34 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     _themeStore = Provider.of<ThemeStore>(context);
   }
 
+  Future<bool> _onBackPressed() {
+    if (_step == 0) {
+      Navigator.of(context).pop(true);
+    } else {
+      _decreaseStep(1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _store = Provider.of<UserStore>(context);
-    return Scaffold(
-      primary: true,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-        title: Text("Sample"),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: _buildBody(_store),
-    );
+    return new WillPopScope(
+        onWillPop: _onBackPressed,
+        child: Scaffold(
+          primary: true,
+          resizeToAvoidBottomPadding: false,
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            title: Text(_step.toString()),
+            centerTitle: true,
+            // backgroundColor: Colors.transparent,
+            elevation: 0.0,
+          ),
+          body: _buildBody(_store),
+        ));
+    ;
   }
 
   // body methods:--------------------------------------------------------------
@@ -129,47 +148,89 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     ));
   }
 
-  Widget _buildYobField(_store) {
-    return Column(
-      children: <Widget>[
-        Text(AppLocalizations.of(context).translate('yob'), style: titleStyle),
-        SizedBox(height: 6.0),
-        Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-        Text(AppLocalizations.of(context).translate('yobSub'),
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              fontSize: 15,
-            )),
-        SizedBox(height: 24.0),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.75,
-          child: Observer(
-            builder: (context) {
-              return TextFieldWidget(
-                hint: AppLocalizations.of(context).translate('User'),
-                isObscure: false,
-                textAlign: TextAlign.center,
-                // icon: Icons.lock,
-                // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
-                textController: _userYobController,
-                focusNode: _yobFocusNode,
-                errorText: _store.formErrorStore.userYob,
-                onChanged: (value) {
-                  _store.setUserYob(_userYobController.text);
-                },
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(4)
-                ],
-              );
-            },
-          ),
-        ),
-        SizedBox(height: 30.0),
-        _buildNextButton(_store)
-      ],
-    );
+  void setActionByType(store, value, type) async {
+    switch (type) {
+      case 'userSex':
+        store.setUserSex(value);
+        _increaseStep(1);
+        break;
+    }
+  }
+
+  void setNextActionByType(store, type) async {
+    DeviceUtils.hideKeyboard(context);
+    switch (type) {
+      case 'userYob':
+        if (store.isYobSet) {
+          _increaseStep(1);
+        } else {
+          _showErrorMessage('Please fill in all fields');
+        }
+        break;
+      case 'userHeight':
+        var test = double.parse(_userHeightController.text);
+        // print('niggeer' + double.parse(_userHeightController.text).toString());
+        await store.setUserHeight(test);
+        if (store.isHeightSet) {
+          _increaseStep(1);
+        } else {
+          _showErrorMessage('Please fill in your height');
+        }
+        break;
+      case 'userWeight':
+        var test = double.parse(_userWeightController.text);
+        // print('niggeer' + double.parse(_userHeightController.text).toString());
+        await store.setUserWeight(test);
+        if (store.isWeightSet) {
+          _increaseStep(1);
+        } else {
+          _showErrorMessage('Please fill in your height');
+        }
+        break;
+    }
+  }
+
+  Widget buildMain(_store) {
+    switch (_step) {
+      case 0:
+        return Yob(store: _store, callBack: setNextActionByType);
+        // return _buildYobField(_store);
+        break;
+      case 1:
+        return UserSex(store: _store, callBack: setActionByType);
+        // return _buildSexField(_store);
+        break;
+      case 2:
+        return UserMeasurments(
+          store: _store,
+          callBack: setNextActionByType,
+          controller: _userHeightController,
+          focusNode: _heightFocusNode,
+          type: 'userHeight',
+        );
+        break;
+      case 3:
+        return UserMeasurments(
+          store: _store,
+          callBack: setNextActionByType,
+          controller: _userWeightController,
+          focusNode: _weightFocusNode,
+          type: 'weight',
+        );
+        break;
+      case 4:
+      //   errorDescription =
+      //       "Received invalid status code: ${error.response.statusCode}";
+      //   break;
+      // case 5:
+      //   errorDescription = "Send timeout in connection with API server";
+      //   break;
+      default:
+        return Visibility(
+          visible: _store.loading,
+          child: CustomProgressIndicatorWidget(),
+        );
+    }
   }
 
   Widget _buildRightSide(_store) {
@@ -210,9 +271,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                   )),
               SizedBox(height: 60.0),
               Column(
-                children: <Widget>[
-                  _buildYobField(_store),
-                ],
+                children: <Widget>[buildMain(_store)],
               )
             ]),
             SizedBox(height: 20.0),
@@ -222,7 +281,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildNextButton(_store) {
+  Widget _buildNextButton(_store, type) {
     return Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
         child: SizedBox(
@@ -238,15 +297,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                   fontSize: 18,
                 )),
             onPressed: () async {
-              if (_store.isYobSet) {
-                DeviceUtils.hideKeyboard(context);
-                // await _store.register();
-                // Navigator.of(context).pushNamed(Routes.emailConfirmation);
-                // Navigator.of(context).pushNamed(Routes.register);
-                          _showErrorMessage('succcess');
-              } else {
-                _showErrorMessage('Please fill in all fields');
-              }
+              setNextActionByType(_store, type);
             },
           ),
         ));
