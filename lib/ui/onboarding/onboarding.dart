@@ -53,7 +53,7 @@ class _OnboardingState extends State<Onboarding> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 40, 25),
+          padding: EdgeInsets.fromLTRB(0, 0, 40, 45),
         ),
         Icon(
           Icons.check_circle_outline_sharp,
@@ -110,7 +110,7 @@ class _OnboardingState extends State<Onboarding> {
             SizedBox(height: 30),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.75,
-              height: MediaQuery.of(context).size.width * 0.15,
+              height: MediaQuery.of(context).size.height * 0.07,
               child: ElevatedButton(
                 // style: TextStyle(fontSize: 14),
                 child: Text(AppLocalizations.of(context).translate('signUp'),
@@ -205,7 +205,10 @@ class _OnboardingState extends State<Onboarding> {
                         )),
                   ],
                 )
-              : Center(child: _buildRightSide(titleStyle, subTitleStyle)),
+              : Padding(
+                  padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  child: Container(
+                      child: _buildRightSide(titleStyle, subTitleStyle)))
         ],
       ),
     );

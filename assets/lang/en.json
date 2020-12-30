@@ -28,6 +28,7 @@
   "register_start": "Below are list of strings for register screen",
   "createAccountTitle": "Create your Account",
   "userName": "Your Name",
+  "skipforNow": "Skip for now",
   "userEmail": "Email Address",
   "emailConfirmation": "We will send you a confirmation message",
   "userPassword": "Password",
@@ -55,8 +56,10 @@
   "cm": "cm",
   "userWeight": "Your Weight",
   "kg": "kg",
-  "headachePerMonth": "How many headache days \n do you have per month",
+  "headachePerMonth": "How many headache days \n do you have per month?",
   "days": "Days",
   "moreThen": "More than",
-  "questionnaireNextBtn": "Next"
+  "questionnaireNextBtn": "Next",
+  "medications": "Do you take any medication \n for your migraine?",
+  "medicationGroup": "Group"
 }

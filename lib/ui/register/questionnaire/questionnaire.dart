@@ -2,14 +2,13 @@ import 'package:Relievion/data/sharedpref/constants/preferences.dart';
 import 'package:Relievion/routes.dart';
 import 'package:Relievion/stores/form/form_store.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
+import 'package:Relievion/ui/register/questionnaire/widgets/userHeadacheDays.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/userMeasurments.dart';
+import 'package:Relievion/ui/register/questionnaire/widgets/userMedications.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/userSex.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:Relievion/utils/device/device_utils.dart';
-import 'package:flutter/services.dart';
 import 'package:Relievion/widgets/progress_indicator_widget.dart';
-import 'package:Relievion/widgets/textfield_widget.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +16,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:Relievion/routes.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/stores/theme/theme_store.dart';
-import 'package:Relievion/data/sharedpref/constants/preferences.dart';
-import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/yob.dart';
 
@@ -46,7 +37,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       setState(() => _step != 0 ? _step = _step - value : _step);
   //stores:---------------------------------------------------------------------
   ThemeStore _themeStore;
-  TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
+  TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
 
   // FormStore _store;
 
@@ -85,11 +76,36 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           primary: true,
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
+            // actions: <Widget>[
+            //   Container(
+            //       padding: EdgeInsets.fromLTRB(0, 20, 10, 0),
+            //       decoration: BoxDecoration(
+            //           border: Border(
+            //               bottom: BorderSide(
+            //                   color: Color.fromRGBO(0, 0, 0, 0), width: 1.0))),
+            //       child: RichText(
+            //         text: TextSpan(
+            //             text: AppLocalizations.of(context)
+            //                 .translate('skipforNow'),
+            //             style: TextStyle(
+            //               fontSize: 16,
+            //               color: Colors.black,
+            //               decoration: TextDecoration.underline,
+            //             ),
+            //             recognizer: TapGestureRecognizer()
+            //               ..onTap = () {
+            //                 _increaseStep(1);
+            //                 // Navigator.of(context)
+            //                 //     .pushNamed(Routes.questionnaire);
+            //               }),
+            //       )),
+            // ],
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
-            title: Text(_step.toString()),
-            centerTitle: true,
+            // title: Text(_step.toString()),
+
+            // centerTitle: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,
           ),
@@ -119,7 +135,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                   ],
                 )
               : Container(
-                  padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: SafeArea(
                     child: Column(
                       children: [
@@ -149,9 +165,14 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   void setActionByType(store, value, type) async {
+    print('motherfucker' + type);
     switch (type) {
       case 'userSex':
         store.setUserSex(value);
+        _increaseStep(1);
+        break;
+      case 'userHeadacheDays':
+        store.setUserHeadacheDays(value);
         _increaseStep(1);
         break;
     }
@@ -168,7 +189,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         }
         break;
       case 'userHeight':
-        var test = double.parse(_userHeightController.text);
+        var test = int.parse(_userHeightController.text);
         // print('niggeer' + double.parse(_userHeightController.text).toString());
         await store.setUserHeight(test);
         if (store.isHeightSet) {
@@ -191,7 +212,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   Widget buildMain(_store) {
-    print("storeeeee" + _store.toString());
     switch (_step) {
       case 0:
         return Yob(store: _store, callBack: setNextActionByType);
@@ -220,12 +240,17 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         );
         break;
       case 4:
+        print(_store.toString());
+        return UserHeadacheDays(
+          store: _store,
+          callBack: setActionByType,
+        );
       //   errorDescription =
       //       "Received invalid status code: ${error.response.statusCode}";
       //   break;
-      // case 5:
-      //   errorDescription = "Send timeout in connection with API server";
-      //   break;
+      case 5:
+        return UserMedications(store: _store, callBack: setActionByType);
+        break;
       default:
         return Visibility(
           visible: _store.loading,
@@ -234,11 +259,40 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     }
   }
 
+  Widget _buildHeader(_store) {
+    if (AppTheme.fullWidth(context) < 393) {
+      titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
+    }
+    return Container(
+      child: Column(children: [
+        Text.rich(
+          TextSpan(
+              text: _store.userName + ', ',
+              style: titleStyle,
+              children: <TextSpan>[
+                TextSpan(
+                  text: AppLocalizations.of(context).translate('getToKnow'),
+                  style: titleStyle,
+                )
+              ]),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 6.0),
+        Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
+        Text(AppLocalizations.of(context).translate('getToKnowSub'),
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+              fontSize: 18,
+            )),
+        SizedBox(height: 60.0),
+      ]),
+    );
+  }
+
   Widget _buildRightSide(_store) {
-    TextStyle subTitleStyle = TextStyles.body;
     if (AppTheme.fullWidth(context) < 393) {
       titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
-      subTitleStyle = TextStyles.title.copyWith(fontSize: 18);
     }
     return SingleChildScrollView(
       child: Padding(
@@ -248,60 +302,15 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Column(children: [
-              Text.rich(
-                TextSpan(
-                    text: _store.userName + ', ',
-                    style: titleStyle,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text:
-                            AppLocalizations.of(context).translate('getToKnow'),
-                        style: titleStyle,
-                      )
-                    ]),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 6.0),
-              Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-              Text(AppLocalizations.of(context).translate('getToKnowSub'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 15,
-                  )),
-              SizedBox(height: 60.0),
-              Column(
-                children: <Widget>[buildMain(_store)],
-              )
+            Column(children: <Widget>[
+              if (_step < 4) _buildHeader(_store),
+              buildMain(_store),
             ]),
-            SizedBox(height: 20.0),
+            // SizedBox(height: 20.0),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildNextButton(_store, type) {
-    return Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.70,
-          height: MediaQuery.of(context).size.width * 0.10,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.grey.shade800),
-            ),
-            child: Text(AppLocalizations.of(context).translate('nextBtn'),
-                style: TextStyle(
-                  fontSize: 18,
-                )),
-            onPressed: () async {
-              setNextActionByType(_store, type);
-            },
-          ),
-        ));
   }
 
   Widget navigate(BuildContext context) {

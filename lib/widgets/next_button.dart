@@ -37,6 +37,7 @@ class NextButtonWidget extends StatelessWidget {
                   fontSize: 18,
                 )),
             onPressed: () async {
+              // onPressed();
               callBack(store, type);
             },
           ),

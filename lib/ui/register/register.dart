@@ -1,35 +1,18 @@
-import 'package:Relievion/constants/assets.dart';
-import 'package:Relievion/data/sharedpref/constants/preferences.dart';
 import 'package:Relievion/routes.dart';
 import 'package:Relievion/stores/form/form_store.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:Relievion/utils/device/device_utils.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:Relievion/widgets/app_icon_widget.dart';
-import 'package:Relievion/widgets/empty_app_bar_widget.dart';
 import 'package:Relievion/widgets/progress_indicator_widget.dart';
-import 'package:Relievion/widgets/rounded_button_widget.dart';
 import 'package:Relievion/widgets/textfield_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:io';
-import 'dart:math';
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:Relievion/routes.dart';
-import 'package:Relievion/stores/theme/light_color.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:Relievion/stores/theme/extention.dart';
-import 'package:Relievion/data/sharedpref/constants/preferences.dart';
-import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 
@@ -128,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 )
               : Container(
-                  padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: SafeArea(
                     child: Column(
                       children: [
@@ -393,11 +376,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.75,
-          height: MediaQuery.of(context).size.width * 0.13,
+          height: MediaQuery.of(context).size.height * 0.05,
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.grey.shade600),
+                  MaterialStateProperty.all<Color>(Colors.grey.shade800),
             ),
             child: Text(AppLocalizations.of(context).translate('nextBtn'),
                 style: TextStyle(

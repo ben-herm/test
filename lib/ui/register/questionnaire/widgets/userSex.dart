@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter/material.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:Relievion/widgets/flat_button.dart';
+import 'package:Relievion/widgets/elevated_button.dart';
 import 'package:flutter/rendering.dart';
 
 class UserSex extends StatefulWidget {
@@ -35,7 +31,7 @@ class _UserSexState extends State<UserSex> {
         SizedBox(height: 24.0),
         Observer(
           builder: (context) {
-            return FlatButtonWidget(
+            return ElevatedButtonWidget(
                 store: widget.store,
                 callBack: widget.callBack,
                 type: 'userSex',
@@ -45,7 +41,7 @@ class _UserSexState extends State<UserSex> {
         // Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
         Observer(
           builder: (context) {
-            return FlatButtonWidget(
+            return ElevatedButtonWidget(
                 store: widget.store,
                 callBack: widget.callBack,
                 type: 'userSex',

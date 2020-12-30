@@ -55,6 +55,20 @@ mixin _$UserStore on _UserStore, Store {
           () => super.canForgetPassword,
           name: '_UserStore.canForgetPassword'))
       .value;
+  Computed<bool> _$isHeadacheDaysSetComputed;
+
+  @override
+  bool get isHeadacheDaysSet => (_$isHeadacheDaysSetComputed ??= Computed<bool>(
+          () => super.isHeadacheDaysSet,
+          name: '_UserStore.isHeadacheDaysSet'))
+      .value;
+  Computed<bool> _$isMedicationsSetComputed;
+
+  @override
+  bool get isMedicationsSet => (_$isMedicationsSetComputed ??= Computed<bool>(
+          () => super.isMedicationsSet,
+          name: '_UserStore.isMedicationsSet'))
+      .value;
 
   final _$userNameAtom = Atom(name: '_UserStore.userName');
 
@@ -149,13 +163,13 @@ mixin _$UserStore on _UserStore, Store {
   final _$userHeightAtom = Atom(name: '_UserStore.userHeight');
 
   @override
-  double get userHeight {
+  int get userHeight {
     _$userHeightAtom.reportRead();
     return super.userHeight;
   }
 
   @override
-  set userHeight(double value) {
+  set userHeight(int value) {
     _$userHeightAtom.reportWrite(value, super.userHeight, () {
       super.userHeight = value;
     });
@@ -188,6 +202,21 @@ mixin _$UserStore on _UserStore, Store {
   set userHeadacheDays(String value) {
     _$userHeadacheDaysAtom.reportWrite(value, super.userHeadacheDays, () {
       super.userHeadacheDays = value;
+    });
+  }
+
+  final _$userMedicationsAtom = Atom(name: '_UserStore.userMedications');
+
+  @override
+  List<List<dynamic>> get userMedications {
+    _$userMedicationsAtom.reportRead();
+    return super.userMedications;
+  }
+
+  @override
+  set userMedications(List<List<dynamic>> value) {
+    _$userMedicationsAtom.reportWrite(value, super.userMedications, () {
+      super.userMedications = value;
     });
   }
 
@@ -333,7 +362,7 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void setUserHeight(double value) {
+  void setUserHeight(int value) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.setUserHeight');
     try {
@@ -399,11 +428,11 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void validatePassword(String value) {
+  void validatePassword(String value, [int minLength = 8]) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.validatePassword');
     try {
-      return super.validatePassword(value);
+      return super.validatePassword(value, minLength);
     } finally {
       _$_UserStoreActionController.endAction(_$actionInfo);
     }
@@ -432,7 +461,7 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void validateUserHeight(double value) {
+  void validateUserHeight(int value) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.validateUserHeight');
     try {
@@ -465,6 +494,7 @@ userSex: ${userSex},
 userHeight: ${userHeight},
 userWeight: ${userWeight},
 userHeadacheDays: ${userHeadacheDays},
+userMedications: ${userMedications},
 success: ${success},
 userMedication: ${userMedication},
 loading: ${loading},
@@ -474,7 +504,9 @@ isYobSet: ${isYobSet},
 isSexSet: ${isSexSet},
 isHeightSet: ${isHeightSet},
 isWeightSet: ${isWeightSet},
-canForgetPassword: ${canForgetPassword}
+canForgetPassword: ${canForgetPassword},
+isHeadacheDaysSet: ${isHeadacheDaysSet},
+isMedicationsSet: ${isMedicationsSet}
     ''';
   }
 }
@@ -501,6 +533,22 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
           Computed<bool>(() => super.hasErrorInForgotPassword,
               name: '_FormErrorStore.hasErrorInForgotPassword'))
       .value;
+  Computed<bool> _$hasErrorInHeadacheSelectionComputed;
+
+  @override
+  bool get hasErrorInHeadacheSelection =>
+      (_$hasErrorInHeadacheSelectionComputed ??= Computed<bool>(
+              () => super.hasErrorInHeadacheSelection,
+              name: '_FormErrorStore.hasErrorInHeadacheSelection'))
+          .value;
+  Computed<bool> _$hasErrorInMedicationsSelectionComputed;
+
+  @override
+  bool get hasErrorInMedicationsSelection =>
+      (_$hasErrorInMedicationsSelectionComputed ??= Computed<bool>(
+              () => super.hasErrorInMedicationsSelection,
+              name: '_FormErrorStore.hasErrorInMedicationsSelection'))
+          .value;
   Computed<bool> _$hasErrorInYearSelectionComputed;
 
   @override
@@ -590,6 +638,21 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$userHeadacheDaysAtom = Atom(name: '_FormErrorStore.userHeadacheDays');
+
+  @override
+  String get userHeadacheDays {
+    _$userHeadacheDaysAtom.reportRead();
+    return super.userHeadacheDays;
+  }
+
+  @override
+  set userHeadacheDays(String value) {
+    _$userHeadacheDaysAtom.reportWrite(value, super.userHeadacheDays, () {
+      super.userHeadacheDays = value;
+    });
+  }
+
   final _$userYobAtom = Atom(name: '_FormErrorStore.userYob');
 
   @override
@@ -602,6 +665,21 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
   set userYob(String value) {
     _$userYobAtom.reportWrite(value, super.userYob, () {
       super.userYob = value;
+    });
+  }
+
+  final _$userMedicationsAtom = Atom(name: '_FormErrorStore.userMedications');
+
+  @override
+  String get userMedications {
+    _$userMedicationsAtom.reportRead();
+    return super.userMedications;
+  }
+
+  @override
+  set userMedications(String value) {
+    _$userMedicationsAtom.reportWrite(value, super.userMedications, () {
+      super.userMedications = value;
     });
   }
 
@@ -657,13 +735,17 @@ userName: ${userName},
 userEmail: ${userEmail},
 password: ${password},
 confirmPassword: ${confirmPassword},
+userHeadacheDays: ${userHeadacheDays},
 userYob: ${userYob},
+userMedications: ${userMedications},
 userSex: ${userSex},
 userHeight: ${userHeight},
 userWeight: ${userWeight},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword},
+hasErrorInHeadacheSelection: ${hasErrorInHeadacheSelection},
+hasErrorInMedicationsSelection: ${hasErrorInMedicationsSelection},
 hasErrorInYearSelection: ${hasErrorInYearSelection},
 hasErrorInSexSelection: ${hasErrorInSexSelection},
 hasErrorInHeightSelection: ${hasErrorInHeightSelection},

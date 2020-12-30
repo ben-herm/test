@@ -42,7 +42,7 @@ abstract class _UserStore with Store {
       reaction(
         (_) => userWeight,
         validateUserWeight,
-      )
+      ),
     ];
   }
 
@@ -66,13 +66,16 @@ abstract class _UserStore with Store {
   String userSex;
 
   @observable
-  double userHeight;
+  int userHeight;
 
   @observable
   double userWeight;
 
   @observable
   String userHeadacheDays;
+
+  @observable
+  List<List> userMedications;
 
   @observable
   bool success = false;
@@ -117,6 +120,14 @@ abstract class _UserStore with Store {
   bool get canForgetPassword =>
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
+  @computed
+  bool get isHeadacheDaysSet =>
+      !formErrorStore.hasErrorInHeadacheSelection && userHeadacheDays != null;
+
+  @computed
+  bool get isMedicationsSet =>
+      !formErrorStore.hasErrorInMedicationsSelection && userMedications != null;
+
   // actions:-------------------------------------------------------------------
   @action
   void setUserName(String value) {
@@ -149,7 +160,7 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void setUserHeight(double value) {
+  void setUserHeight(int value) {
     userHeight = value;
   }
 
@@ -191,11 +202,34 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void validatePassword(String value) {
-    if (value.isEmpty) {
+  // void validatePassword(String value) {
+  //   if (value.isEmpty) {
+  //     formErrorStore.password = "Password can't be empty";
+  //   } else if (value.length < 6) {
+  //     formErrorStore.password = "Password must be at-least 6 characters long";
+  //   } else {
+  //     formErrorStore.password = null;
+  //   }
+  // }
+  @action
+  void validatePassword(String value, [int minLength = 8]) {
+    bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+    bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+    bool hasMinLength = password.length > minLength;
+
+    if (value == null || value.isEmpty) {
       formErrorStore.password = "Password can't be empty";
-    } else if (value.length < 6) {
-      formErrorStore.password = "Password must be at-least 6 characters long";
+    } else if (!hasUppercase) {
+      formErrorStore.password =
+          "Password must contain at least one upper case character";
+    } else if (!hasDigits) {
+      formErrorStore.password = "Password must contain at least one number";
+    } else if (!hasLowercase) {
+      formErrorStore.password =
+          "Password must contain at least one lower case character";
+    } else if (!hasMinLength) {
+      formErrorStore.password = "Password must contain at least 8 characters";
     } else {
       formErrorStore.password = null;
     }
@@ -228,9 +262,9 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void validateUserHeight(double value) {
-    var compare1 = value.compareTo(2.3);
-    var compare2 = value.compareTo(1.3);
+  void validateUserHeight(int value) {
+    var compare1 = value.compareTo(250);
+    var compare2 = value.compareTo(120);
     if (compare1 == 1 || compare2 == -1) {
       print('hell1111o');
       formErrorStore.userHeight = "Please set a valid height";
@@ -328,7 +362,13 @@ abstract class _FormErrorStore with Store {
   String confirmPassword;
 
   @observable
+  String userHeadacheDays;
+
+  @observable
   String userYob;
+
+  @observable
+  String userMedications;
 
   @observable
   String userSex;
@@ -352,6 +392,12 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInForgotPassword => userEmail != null;
+
+  @computed
+  bool get hasErrorInHeadacheSelection => userHeadacheDays != null;
+
+  @computed
+  bool get hasErrorInMedicationsSelection => userMedications != null;
 
   @computed
   bool get hasErrorInYearSelection => userYob != null;

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:Relievion/widgets/textfield_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter/material.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Relievion/widgets/next_button.dart';
 
@@ -78,10 +74,10 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
                     _setHeight(value);
                   },
                   inputFormatters: <TextInputFormatter>[
-                    // FilteringTextInputFormatter.digitsOnly,
+                    FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(3),
-                    FilteringTextInputFormatter(RegExp(r'(^\d*\.?\d*)'),
-                        allow: true)
+                    // FilteringTextInputFormatter(RegExp(r'(^\d*\.?\d*)'),
+                    //     allow: true)
                   ],
                 );
               },

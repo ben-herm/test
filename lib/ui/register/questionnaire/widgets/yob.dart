@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:Relievion/widgets/textfield_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter/material.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter/rendering.dart';
 import 'package:Relievion/widgets/next_button.dart';
 
