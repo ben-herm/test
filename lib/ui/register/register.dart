@@ -222,6 +222,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 FocusScope.of(context).requestFocus(_emailFocusNode);
               },
               errorText: _store.formErrorStore.userName,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(9),
+                FilteringTextInputFormatter(RegExp('[a-zA-Z0-9]'), allow: true)
+              ],
             );
           },
         )

@@ -42,6 +42,7 @@ class FlatButtonWidget extends StatelessWidget {
               // padding: EdgeInsets.all(8.0),
               splashColor: Colors.blueAccent,
               onPressed: () {
+                onPressed();
                 /*...*/
               },
               child: Text(

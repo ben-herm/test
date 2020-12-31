@@ -1,3 +1,4 @@
+import 'package:Relievion/models/medications/medications.dart';
 import 'package:Relievion/widgets/flat_button.dart';
 import 'package:Relievion/widgets/next_button.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
 import 'package:Relievion/widgets/elevated_button.dart';
 import 'package:flutter/rendering.dart';
+import 'package:Relievion/models/medications/medications.dart';
 
 class UserMedications extends StatefulWidget {
   final store;
@@ -16,10 +18,22 @@ class UserMedications extends StatefulWidget {
 }
 
 class _UserMedicationsState extends State<UserMedications> {
+  Map<List, bool> medications = {
+    ["Advil", "Motrin"]: false,
+    ["Aleve", "Anaprox", "Naprosyn"]: false,
+    ["Excedrin" "Migraine", "Excedrin"]: false,
+    ["DHE-45", "injection", "Ergomar"]: false,
+    ["Zomig"]: false
+  };
+
+  List meds = [false, false, false, false, false];
+
+  // foods[foods.indexWhere((element) => element.uid == food.uid)] = food;
+
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
 
-  List<bool> medications = [false, false, false, false, false];
-  void _setMedications(List<bool> value) => setState(() => medications = value);
+  void _setMedications(int value) =>
+      setState(() => meds[value] == !meds[value]);
 
   void _addToStore(store, group) {
     //     switch (group) {
@@ -35,6 +49,7 @@ class _UserMedicationsState extends State<UserMedications> {
 
   @override
   Widget build(BuildContext context) {
+    // print('medications' + medications.toString());
     return Container(
       height: MediaQuery.of(context).size.height * 0.9,
       child: Column(
@@ -53,9 +68,15 @@ class _UserMedicationsState extends State<UserMedications> {
               callBack: widget.callBack,
               maxlines: 2,
               onPressed: () {
-                List<bool> newMedications = medications;
-                newMedications.insert(0, !newMedications[0]);
-                _setMedications(newMedications);
+                var newMedications = meds;
+                // newMedications[0] == !medications[0];
+                newMedications[0] == !newMedications[0];
+                _setMedications(0);
+                setState(() => meds[0] == !newMedications[0]);
+                print(meds);
+                // newMedications['group1'] == true;
+
+                // _setMedications(newMedications);
               },
               type: 'medication',
               text: AppLocalizations.of(context).translate('medicationGroup') +
@@ -66,9 +87,9 @@ class _UserMedicationsState extends State<UserMedications> {
               callBack: widget.callBack,
               maxlines: 2,
               onPressed: () {
-                List<bool> newMedications = medications;
-                newMedications.insert(0, !newMedications[0]);
-                _setMedications(newMedications);
+                // List<bool> newMedications = medications;
+                // newMedications.insert(1, !newMedications[1]);
+                // _setMedications(newMedications);
               },
               type: 'medication',
               text: AppLocalizations.of(context).translate('medicationGroup') +
@@ -79,9 +100,9 @@ class _UserMedicationsState extends State<UserMedications> {
               callBack: widget.callBack,
               maxlines: 2,
               onPressed: () {
-                List<bool> newMedications = medications;
-                newMedications.insert(0, !newMedications[0]);
-                _setMedications(newMedications);
+                // List<bool> newMedications = medications;
+                // newMedications.insert(2, !newMedications[2]);
+                // _setMedications(newMedications);
               },
               type: 'medication',
               text: AppLocalizations.of(context).translate('medicationGroup') +
@@ -92,9 +113,9 @@ class _UserMedicationsState extends State<UserMedications> {
               callBack: widget.callBack,
               maxlines: 2,
               onPressed: () {
-                List<bool> newMedications = medications;
-                newMedications.insert(0, !newMedications[0]);
-                _setMedications(newMedications);
+                // List<bool> newMedications = medications;
+                // newMedications.insert(3, !newMedications[3]);
+                // _setMedications(newMedications);
               },
               type: 'medication',
               text: AppLocalizations.of(context).translate('medicationGroup') +
@@ -105,9 +126,9 @@ class _UserMedicationsState extends State<UserMedications> {
               callBack: widget.callBack,
               maxlines: 2,
               onPressed: () {
-                List<bool> newMedications = medications;
-                newMedications.insert(0, !newMedications[0]);
-                _setMedications(newMedications);
+                // List<bool> newMedications = medications;
+                // newMedications.insert(4, !newMedications[4]);
+                // _setMedications(newMedications);
               },
               type: 'medication',
               text: AppLocalizations.of(context).translate('medicationGroup') +

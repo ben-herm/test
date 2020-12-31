@@ -263,13 +263,9 @@ abstract class _UserStore with Store {
 
   @action
   void validateUserHeight(int value) {
-    var compare1 = value.compareTo(250);
-    var compare2 = value.compareTo(120);
-    if (compare1 == 1 || compare2 == -1) {
-      print('hell1111o');
+    if (value > 250 || value < 120) {
       formErrorStore.userHeight = "Please set a valid height";
     } else {
-      print('hello');
       formErrorStore.userHeight = null;
     }
   }
