@@ -59,6 +59,9 @@ dependencies:
   # A powerful Http client for Dart
   dio: 3.0.10
 
+  # image picker
+  image_picker: ^0.6.7+17
+
   # A flexible widget for user notification. Customize your text, button, duration, animations
   # and much more. For Android devs, it is made to replace Snackbars and Toasts.
   flushbar: ^1.10.4

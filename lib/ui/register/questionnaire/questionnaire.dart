@@ -5,6 +5,7 @@ import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/userHeadacheDays.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/userMeasurments.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/userMedications.dart';
+import 'package:Relievion/ui/register/questionnaire/widgets/userMigrainTriggers.dart';
 import 'package:Relievion/ui/register/questionnaire/widgets/userSex.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:Relievion/utils/device/device_utils.dart';
@@ -59,9 +60,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     _themeStore = Provider.of<ThemeStore>(context);
   }
 
-  Future<bool> _onBackPressed() {
+  Future<bool> _onBackPressed(context) {
+    final _store = Provider.of<UserStore>(context, listen: false);
     if (_step == 0) {
       Navigator.of(context).pop(true);
+    } else if (_step == 6) {
+      // _store.setUsermedications(null);
+      _decreaseStep(1);
     } else {
       _decreaseStep(1);
     }
@@ -71,7 +76,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   Widget build(BuildContext context) {
     final _store = Provider.of<UserStore>(context);
     return new WillPopScope(
-        onWillPop: _onBackPressed,
+        onWillPop: () => _onBackPressed(context),
         child: Scaffold(
           primary: true,
           resizeToAvoidBottomPadding: false,
@@ -165,7 +170,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   void setActionByType(store, value, type) async {
-    print('motherfucker' + type);
     switch (type) {
       case 'userSex':
         store.setUserSex(value);
@@ -178,7 +182,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     }
   }
 
-  void setNextActionByType(store, type) async {
+  void setNextActionByType(store, type, [Map value]) async {
     DeviceUtils.hideKeyboard(context);
     switch (type) {
       case 'userYob':
@@ -206,6 +210,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           _increaseStep(1);
         } else {
           _showErrorMessage('Please fill in your height');
+        }
+        break;
+      case 'userMedications':
+        await store.setUsermedications(value);
+        print('hello' + store.toString());
+        if (store.isMedicationsSet) {
+          _increaseStep(1);
         }
         break;
     }
@@ -240,7 +251,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         );
         break;
       case 4:
-        print(_store.toString());
         return UserHeadacheDays(
           store: _store,
           callBack: setActionByType,
@@ -249,8 +259,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       //       "Received invalid status code: ${error.response.statusCode}";
       //   break;
       case 5:
-        return UserMedications(store: _store, callBack: setActionByType);
+        return UserMedications(store: _store, callBack: setNextActionByType);
         break;
+      case 6:
+        return UserMigrainTriggers(
+            store: _store, callBack: setNextActionByType);
+        break;
+
       default:
         return Visibility(
           visible: _store.loading,

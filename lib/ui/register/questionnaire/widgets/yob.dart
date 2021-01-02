@@ -60,7 +60,10 @@ class _YobState extends State<Yob> {
         ),
         SizedBox(height: 30.0),
         NextButtonWidget(
-            store: widget.store, type: 'userYob', callBack: widget.callBack)
+            store: widget.store,
+            type: 'userYob',
+            callBack: widget.callBack,
+            btnType: "1")
         // _buildNextButton(store, 'userYob')
       ],
     );

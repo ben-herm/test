@@ -29,7 +29,7 @@ class Onboarding extends StatefulWidget {
 
 class _OnboardingState extends State<Onboarding> {
   ThemeStore _themeStore;
-
+  bool _loading = false;
   Widget navigate(BuildContext context) {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool(Preferences.is_logged_in, true);
@@ -46,6 +46,14 @@ class _OnboardingState extends State<Onboarding> {
     //   MaterialPageRoute(builder: (context) => Routes.login)),
 
     return Container();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _loading = false;
+    });
   }
 
   Widget _checkList() {
@@ -115,8 +123,11 @@ class _OnboardingState extends State<Onboarding> {
                 // style: TextStyle(fontSize: 14),
                 child: Text(AppLocalizations.of(context).translate('signUp'),
                     style: TextStyle(fontSize: 18)),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.register);
+                onPressed: () async {
+                  setState(() {
+                    _loading = true;
+                  });
+                  await Navigator.of(context).pushNamed(Routes.register);
                 },
               ),
             ),
@@ -190,25 +201,12 @@ class _OnboardingState extends State<Onboarding> {
     return Material(
       child: Stack(
         children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: _buildLeftSide(),
-                    // ),
-                    Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: _buildRightSide(titleStyle, subTitleStyle),
-                        )),
-                  ],
-                )
-              : Padding(
-                  padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                  child: Container(
-                      child: _buildRightSide(titleStyle, subTitleStyle)))
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: Container(
+                  child: _loading
+                      ? CircularProgressIndicator()
+                      : _buildRightSide(titleStyle, subTitleStyle)))
         ],
       ),
     );

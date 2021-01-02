@@ -75,13 +75,10 @@ abstract class _UserStore with Store {
   String userHeadacheDays;
 
   @observable
-  List<List> userMedications;
+  Map<String, Map> userMedications;
 
   @observable
   bool success = false;
-
-  @observable
-  String userMedication = '';
 
   @observable
   bool loading = false;
@@ -175,8 +172,8 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void setUsermedication(String value) {
-    userMedication = value;
+  void setUsermedications(Map<String, Map> value) {
+    userMedications = value;
   }
 
   @action

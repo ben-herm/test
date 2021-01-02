@@ -9,6 +9,7 @@ class FlatButtonWidget extends StatelessWidget {
   final Function callBack;
   final String text;
   final int maxlines;
+  final bool backGroundPressedColor;
   final VoidCallback onPressed;
   bool hasBeenPressed;
 
@@ -17,7 +18,7 @@ class FlatButtonWidget extends StatelessWidget {
       this.store,
       this.type,
       this.onPressed,
-      // this.textColor = Colors.white,
+      this.backGroundPressedColor = false,
       this.callBack,
       this.maxlines,
       this.hasBeenPressed = false,
@@ -32,7 +33,7 @@ class FlatButtonWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.85,
             height: MediaQuery.of(context).size.height * 0.07,
             child: FlatButton(
-              color: Colors.white,
+              color: backGroundPressedColor ? Colors.grey : Colors.white,
               textColor: Colors.black,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0.0),

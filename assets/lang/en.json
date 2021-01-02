@@ -61,5 +61,22 @@
   "moreThen": "More than",
   "questionnaireNextBtn": "Next",
   "medications": "Do you take any medication \n for your migraine?",
-  "medicationGroup": "Group"
+  "medicationGroup": "Group",
+  "migrainTriggerMain": "What can trigger your migrain?",
+  "migrainTriggerSub": "You can choose more than one",
+  "coffeine": "Coffeine",
+  "alcohol": "Alcohol",
+  "skippedMeail": "Skipped Meal",
+  "heat": "Heat",
+  "dehydration": "Dehydraion",
+  "certainFood": "Certain Food",
+  "certainOdors": "Certain Odors",
+  "lowHumidity": "Low Humidity",
+  "humidWeather": "Humid Weather",
+  "phsyicalActivity": "Physical Activity",
+  "travel": "Travel",
+  "weekend": "Weekend",
+  "other": "Other",
+  "stress": "Stress",
+  "lackOfSleep": "Lack of Sleep"
 }

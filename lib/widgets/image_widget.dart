@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AppIconWidget extends StatelessWidget {
+class CustomImageWidget extends StatelessWidget {
   final image;
 
-  const AppIconWidget({
+  const CustomImageWidget({
     Key key,
     this.image,
   }) : super(key: key);
@@ -14,16 +14,20 @@ class AppIconWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     //calculating container width
-    double imageSize;
+    double imageHeight;
+    double imageWidth;
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      imageSize = (size.width * 0.20);
+      imageHeight = (size.width * 0.20);
+      imageWidth = (size.width * 0.25);
     } else {
-      imageSize = (size.height * 0.20);
+      imageHeight = (size.height * 0.10);
+      imageWidth = (size.width * 0.10);
     }
 
     return Image.asset(
       image,
-      height: imageSize,
+      height: imageHeight,
+      width: imageWidth,
     );
   }
 }

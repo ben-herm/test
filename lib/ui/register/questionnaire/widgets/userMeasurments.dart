@@ -92,7 +92,10 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
         ]),
         SizedBox(height: 30.0),
         NextButtonWidget(
-            store: widget.store, type: 'userHeight', callBack: widget.callBack)
+            store: widget.store,
+            type: 'userHeight',
+            callBack: widget.callBack,
+            btnType: "1")
         // _buildNextButton(_store, 'userHeight')
       ],
     );
@@ -148,7 +151,10 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
         ]),
         SizedBox(height: 30.0),
         NextButtonWidget(
-            store: widget.store, type: 'userWeight', callBack: widget.callBack)
+            store: widget.store,
+            type: 'userWeight',
+            callBack: widget.callBack,
+            btnType: "1")
         // _buildNextButton(_store, 'userHeight')
       ],
     );

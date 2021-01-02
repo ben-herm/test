@@ -208,13 +208,13 @@ mixin _$UserStore on _UserStore, Store {
   final _$userMedicationsAtom = Atom(name: '_UserStore.userMedications');
 
   @override
-  List<List<dynamic>> get userMedications {
+  Map<String, Map<dynamic, dynamic>> get userMedications {
     _$userMedicationsAtom.reportRead();
     return super.userMedications;
   }
 
   @override
-  set userMedications(List<List<dynamic>> value) {
+  set userMedications(Map<String, Map<dynamic, dynamic>> value) {
     _$userMedicationsAtom.reportWrite(value, super.userMedications, () {
       super.userMedications = value;
     });
@@ -232,21 +232,6 @@ mixin _$UserStore on _UserStore, Store {
   set success(bool value) {
     _$successAtom.reportWrite(value, super.success, () {
       super.success = value;
-    });
-  }
-
-  final _$userMedicationAtom = Atom(name: '_UserStore.userMedication');
-
-  @override
-  String get userMedication {
-    _$userMedicationAtom.reportRead();
-    return super.userMedication;
-  }
-
-  @override
-  set userMedication(String value) {
-    _$userMedicationAtom.reportWrite(value, super.userMedication, () {
-      super.userMedication = value;
     });
   }
 
@@ -395,11 +380,11 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void setUsermedication(String value) {
+  void setUsermedications(Map<String, Map<dynamic, dynamic>> value) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
-        name: '_UserStore.setUsermedication');
+        name: '_UserStore.setUsermedications');
     try {
-      return super.setUsermedication(value);
+      return super.setUsermedications(value);
     } finally {
       _$_UserStoreActionController.endAction(_$actionInfo);
     }
@@ -496,7 +481,6 @@ userWeight: ${userWeight},
 userHeadacheDays: ${userHeadacheDays},
 userMedications: ${userMedications},
 success: ${success},
-userMedication: ${userMedication},
 loading: ${loading},
 canLogin: ${canLogin},
 canRegister: ${canRegister},

@@ -5,7 +5,7 @@ import 'package:Relievion/stores/form/form_store.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:Relievion/utils/device/device_utils.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:Relievion/widgets/app_icon_widget.dart';
+import 'package:Relievion/widgets/image_widget.dart';
 import 'package:Relievion/widgets/empty_app_bar_widget.dart';
 import 'package:Relievion/widgets/progress_indicator_widget.dart';
 import 'package:Relievion/widgets/rounded_button_widget.dart';
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
+            CustomImageWidget(image: 'assets/icons/ic_appicon.png'),
             SizedBox(height: 24.0),
             _buildUserIdField(),
             _buildPasswordField(),

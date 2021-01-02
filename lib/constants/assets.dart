@@ -7,4 +7,6 @@ class Assets {
   // login screen assets
   static const String carBackground = "assets/images/img_login.jpg";
 
+  // image placeHolders
+  static const String imagePlaceholder = "assets/images/imagePlaceholder.png";
 }
