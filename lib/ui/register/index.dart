@@ -4,20 +4,11 @@ import 'package:Relievion/stores/form/form_store.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:Relievion/widgets/empty_app_bar_widget.dart';
-import 'package:Relievion/widgets/progress_indicator_widget.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:Relievion/routes.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/stores/theme/theme_store.dart';
-import 'package:Relievion/data/sharedpref/constants/preferences.dart';
-import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/rendering.dart';
 
 class EmailConfirmation extends StatefulWidget {
@@ -30,7 +21,7 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
   ThemeStore _themeStore;
 
   //stores:---------------------------------------------------------------------
-  final _store = FormStore();
+  // final _store = UserStore();
 
   @override
   void initState() {

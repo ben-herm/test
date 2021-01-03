@@ -10,14 +10,14 @@ import 'package:Relievion/widgets/next_button.dart';
 class Yob extends StatefulWidget {
   final store;
   final Function callBack;
-  Yob({Key key, this.store, this.callBack}) : super(key: key);
+  final TextEditingController controller;
+  Yob({Key key, this.store, this.controller, this.callBack}) : super(key: key);
   @override
   _YobState createState() => _YobState();
 }
 
 class _YobState extends State<Yob> {
   FocusNode _yobFocusNode;
-  TextEditingController _userYobController = TextEditingController();
 
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
   @override
@@ -35,7 +35,8 @@ class _YobState extends State<Yob> {
             )),
         SizedBox(height: 24.0),
         Container(
-          width: MediaQuery.of(context).size.width * 0.75,
+          width: MediaQuery.of(context).size.width * 0.85,
+          // height: MediaQuery.of(context).size.width * 0.20,
           child: Observer(
             builder: (context) {
               return TextFieldWidget(
@@ -44,11 +45,11 @@ class _YobState extends State<Yob> {
                 textAlign: TextAlign.center,
                 // icon: Icons.lock,
                 // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
-                textController: _userYobController,
+                textController: widget.controller,
                 focusNode: _yobFocusNode,
                 errorText: widget.store.formErrorStore.userYob,
                 onChanged: (value) {
-                  widget.store.setUserYob(int.parse(_userYobController.text));
+                  widget.store.setUserYob(int.parse(widget.controller.text));
                 },
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,
@@ -67,6 +68,5 @@ class _YobState extends State<Yob> {
         // _buildNextButton(store, 'userYob')
       ],
     );
-    ;
   }
 }

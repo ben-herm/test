@@ -44,10 +44,10 @@ class NextButtonWidget extends StatelessWidget {
     }
 
     return Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.70,
-          height: MediaQuery.of(context).size.width * 0.10,
+          width: MediaQuery.of(context).size.width * 0.80,
+          height: MediaQuery.of(context).size.width * 0.12,
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor:

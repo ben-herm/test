@@ -38,7 +38,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       setState(() => _step != 0 ? _step = _step - value : _step);
   //stores:---------------------------------------------------------------------
   ThemeStore _themeStore;
-  TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
+  TextStyle titleStyle = TextStyles.title.copyWith(fontSize: 12);
 
   // FormStore _store;
 
@@ -48,6 +48,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   FocusNode _weightFocusNode;
   TextEditingController _userHeightController = TextEditingController();
   TextEditingController _userWeightController = TextEditingController();
+  TextEditingController _userYobController = TextEditingController();
 
   @override
   void initState() {
@@ -60,8 +61,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     _themeStore = Provider.of<ThemeStore>(context);
   }
 
-  Future<bool> _onBackPressed(context) {
-    final _store = Provider.of<UserStore>(context, listen: false);
+  _onBackPressed(context) {
     if (_step == 0) {
       Navigator.of(context).pop(true);
     } else if (_step == 6) {
@@ -81,30 +81,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           primary: true,
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
-            // actions: <Widget>[
-            //   Container(
-            //       padding: EdgeInsets.fromLTRB(0, 20, 10, 0),
-            //       decoration: BoxDecoration(
-            //           border: Border(
-            //               bottom: BorderSide(
-            //                   color: Color.fromRGBO(0, 0, 0, 0), width: 1.0))),
-            //       child: RichText(
-            //         text: TextSpan(
-            //             text: AppLocalizations.of(context)
-            //                 .translate('skipforNow'),
-            //             style: TextStyle(
-            //               fontSize: 16,
-            //               color: Colors.black,
-            //               decoration: TextDecoration.underline,
-            //             ),
-            //             recognizer: TapGestureRecognizer()
-            //               ..onTap = () {
-            //                 _increaseStep(1);
-            //                 // Navigator.of(context)
-            //                 //     .pushNamed(Routes.questionnaire);
-            //               }),
-            //       )),
-            // ],
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
@@ -116,54 +92,33 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           ),
           body: _buildBody(_store),
         ));
-    ;
   }
 
   // body methods:--------------------------------------------------------------
   Widget _buildBody(_store) {
     final _store = Provider.of<UserStore>(context);
     return Material(
-        child: SingleChildScrollView(
+        child: Container(
       child: Stack(
         children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: _buildLeftSide(),
-                    // ),
-                    Expanded(
-                      flex: 1,
-                      child: _buildRightSide(_store),
-                    ),
+          Container(
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    _buildRightSide(_store),
+                    Observer(
+                      builder: (context) {
+                        return Visibility(
+                          visible: _store.loading,
+                          child: CustomProgressIndicatorWidget(),
+                        );
+                      },
+                    )
                   ],
-                )
-              : Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: SafeArea(
-                    child: Column(
-                      children: [
-                        _buildRightSide(_store),
-                        // Observer(
-                        //   builder: (context) {
-                        //     return _store.success
-                        //         ? navigate(context)
-                        //         : _showErrorMessage(
-                        //             _store.errorStore.errorMessage);
-                        //   },
-                        // ),
-                        Observer(
-                          builder: (context) {
-                            return Visibility(
-                              visible: _store.loading,
-                              child: CustomProgressIndicatorWidget(),
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  )),
+                ),
+              )),
         ],
       ),
     ));
@@ -186,7 +141,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     DeviceUtils.hideKeyboard(context);
     switch (type) {
       case 'userYob':
-        if (store.isYobSet) {
+        int yob;
+        if (_userYobController.text.isNotEmpty) {
+          yob = int.parse(_userYobController.text);
+        } else {
+          yob = 0;
+        }
+        if (store.isYobSet && yob > 0) {
           _increaseStep(1);
         } else {
           _showErrorMessage('Please fill in all fields');
@@ -194,7 +155,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         break;
       case 'userHeight':
         var test = int.parse(_userHeightController.text);
-        // print('niggeer' + double.parse(_userHeightController.text).toString());
         await store.setUserHeight(test);
         if (store.isHeightSet) {
           _increaseStep(1);
@@ -204,7 +164,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         break;
       case 'userWeight':
         var test = double.parse(_userWeightController.text);
-        // print('niggeer' + double.parse(_userHeightController.text).toString());
         await store.setUserWeight(test);
         if (store.isWeightSet) {
           _increaseStep(1);
@@ -214,7 +173,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         break;
       case 'userMedications':
         await store.setUsermedications(value);
-        print('hello' + store.toString());
         if (store.isMedicationsSet) {
           _increaseStep(1);
         }
@@ -225,7 +183,11 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   Widget buildMain(_store) {
     switch (_step) {
       case 0:
-        return Yob(store: _store, callBack: setNextActionByType);
+        return Yob(
+          store: _store,
+          callBack: setNextActionByType,
+          controller: _userYobController,
+        );
         // return _buildYobField(_store);
         break;
       case 1:
@@ -282,24 +244,28 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       child: Column(children: [
         Text.rich(
           TextSpan(
-              text: _store.userName + ', ',
-              style: titleStyle,
-              children: <TextSpan>[
-                TextSpan(
-                  text: AppLocalizations.of(context).translate('getToKnow'),
-                  style: titleStyle,
-                )
-              ]),
+            text: _store.userName + ', ',
+            style: titleStyle,
+            children: <TextSpan>[
+              TextSpan(
+                text: AppLocalizations.of(context).translate('getToKnow'),
+                style: titleStyle,
+              )
+            ],
+          ),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 6.0),
         Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-        Text(AppLocalizations.of(context).translate('getToKnowSub'),
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
-              fontSize: 18,
-            )),
+        Text(
+          AppLocalizations.of(context).translate('getToKnowSub'),
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+            fontSize: 18,
+          ),
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: 60.0),
       ]),
     );
@@ -309,21 +275,17 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     if (AppTheme.fullWidth(context) < 393) {
       titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
     }
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Column(children: <Widget>[
-              if (_step < 4) _buildHeader(_store),
-              buildMain(_store),
-            ]),
-            // SizedBox(height: 20.0),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          if (_step < 4) _buildHeader(_store),
+          buildMain(_store),
+          // SizedBox(height: 20.0),
+        ],
       ),
     );
   }

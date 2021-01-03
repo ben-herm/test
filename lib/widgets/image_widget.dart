@@ -18,7 +18,7 @@ class CustomImageWidget extends StatelessWidget {
     double imageWidth;
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       imageHeight = (size.width * 0.20);
-      imageWidth = (size.width * 0.25);
+      imageWidth = (size.width * 0.20);
     } else {
       imageHeight = (size.height * 0.10);
       imageWidth = (size.width * 0.10);
@@ -26,8 +26,9 @@ class CustomImageWidget extends StatelessWidget {
 
     return Image.asset(
       image,
-      height: imageHeight,
-      width: imageWidth,
+      fit: BoxFit.contain,
+      // height: imageHeight,
+      // width: imageWidth,
     );
   }
 }

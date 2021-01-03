@@ -32,6 +32,9 @@ dependencies:
   # The following adds the shared pref as a dependency in your application
   shared_preferences: ^0.5.10
 
+  # ble communication
+  flutter_blue: ^0.7.3
+
 
   # Keyboard visibility
   flutter_keyboard_visibility: ^4.0.0

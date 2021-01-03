@@ -15,76 +15,37 @@ class UserHeadacheDays extends StatefulWidget {
 
 class _UserHeadacheDaysState extends State<UserHeadacheDays> {
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
+
+  Widget _buildItem(text) {
+    return Observer(
+      builder: (context) {
+        return ElevatedButtonWidget(
+            store: widget.store,
+            callBack: widget.callBack,
+            type: 'userHeadacheDays',
+            text: text + ' ' + AppLocalizations.of(context).translate('days'));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(AppLocalizations.of(context).translate('headachePerMonth'),
-            style: titleStyle),
-        SizedBox(height: 6.0),
-        Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-        SizedBox(height: 24.0),
-        Observer(
-          builder: (context) {
-            return ElevatedButtonWidget(
-                store: widget.store,
-                callBack: widget.callBack,
-                type: 'userHeadacheDays',
-                text: '1-5 ' + AppLocalizations.of(context).translate('days'));
-          },
-        ),
-        // Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
-        Observer(
-          builder: (context) {
-            return ElevatedButtonWidget(
-                store: widget.store,
-                callBack: widget.callBack,
-                type: 'userHeadacheDays',
-                text: '6-10 ' + AppLocalizations.of(context).translate('days'));
-          },
-        ),
-        Observer(
-          builder: (context) {
-            return ElevatedButtonWidget(
-                store: widget.store,
-                callBack: widget.callBack,
-                type: 'userHeadacheDays',
-                text:
-                    '11-15 ' + AppLocalizations.of(context).translate('days'));
-          },
-        ),
-        Observer(
-          builder: (context) {
-            return ElevatedButtonWidget(
-                store: widget.store,
-                callBack: widget.callBack,
-                type: 'userHeadacheDays',
-                text:
-                    '16-20 ' + AppLocalizations.of(context).translate('days'));
-          },
-        ),
-        Observer(
-          builder: (context) {
-            return ElevatedButtonWidget(
-                store: widget.store,
-                callBack: widget.callBack,
-                type: 'userHeadacheDays',
-                text:
-                    '21-25 ' + AppLocalizations.of(context).translate('days'));
-          },
-        ),
-        Observer(
-          builder: (context) {
-            return ElevatedButtonWidget(
-                store: widget.store,
-                callBack: widget.callBack,
-                type: 'userHeadacheDays',
-                text: AppLocalizations.of(context).translate('moreThen') +
-                    ' 25 ' +
-                    AppLocalizations.of(context).translate('days'));
-          },
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Text(AppLocalizations.of(context).translate('headachePerMonth'),
+              style: titleStyle),
+          SizedBox(height: 6.0),
+          Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
+          SizedBox(height: 24.0),
+          _buildItem("1-5"),
+          _buildItem("6-10"),
+          _buildItem("11-15"),
+          _buildItem("16-20"),
+          _buildItem("21-25"),
+          _buildItem("more than 25"),
+        ],
+      ),
     );
   }
 }

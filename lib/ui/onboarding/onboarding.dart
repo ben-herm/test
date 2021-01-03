@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
@@ -10,11 +9,9 @@ import 'package:provider/provider.dart';
 import 'package:Relievion/stores/theme/light_color.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
 import 'package:Relievion/stores/theme/theme_store.dart';
-import 'package:Relievion/stores/theme/extention.dart';
 import 'package:Relievion/data/sharedpref/constants/preferences.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 
 enum _Platform { android, ios }
@@ -35,7 +32,6 @@ class _OnboardingState extends State<Onboarding> {
       prefs.setBool(Preferences.is_logged_in, true);
     });
     final _store = Provider.of<UserStore>(context);
-    print('onboarding: ' + _store.toString());
     Future.delayed(Duration(milliseconds: 0), () {
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.home, (Route<dynamic> route) => false);
@@ -124,9 +120,9 @@ class _OnboardingState extends State<Onboarding> {
                 child: Text(AppLocalizations.of(context).translate('signUp'),
                     style: TextStyle(fontSize: 18)),
                 onPressed: () async {
-                  setState(() {
-                    _loading = true;
-                  });
+                  // setState(() {
+                  //   _loading = true;
+                  // });
                   await Navigator.of(context).pushNamed(Routes.register);
                 },
               ),
@@ -157,13 +153,18 @@ class _OnboardingState extends State<Onboarding> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // AppIconWidget(image: 'assets/icons/ic_appicon.png'),
             // SizedBox(height: 24.0),
-            _welcomeTo(titleStyle, subTitleStyle),
+            _loading
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Center(child: CircularProgressIndicator()))
+                : _welcomeTo(titleStyle, subTitleStyle),
             _checkList(),
           ],
         ),
@@ -203,10 +204,8 @@ class _OnboardingState extends State<Onboarding> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Container(
-                  child: _loading
-                      ? CircularProgressIndicator()
-                      : _buildRightSide(titleStyle, subTitleStyle)))
+              child:
+                  Container(child: _buildRightSide(titleStyle, subTitleStyle)))
         ],
       ),
     );

@@ -58,7 +58,8 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
         SizedBox(height: 24.0),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.75,
+            width: MediaQuery.of(context).size.width * 0.65,
+            // height: MediaQuery.of(context).size.width * 0.15,
             child: Observer(
               builder: (context) {
                 return TextFieldWidget(
@@ -71,8 +72,12 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
                   focusNode: widget.focusNode,
                   errorText: _store.formErrorStore.userHeight,
                   onChanged: (value) {
-                    _setHeight(value);
+                    widget.store
+                        .setUserHeight(int.parse(widget.controller.text));
                   },
+                  // onChanged: (value) {
+                  //   _setHeight(value);
+                  // },
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(3),
@@ -130,8 +135,12 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
                   focusNode: widget.focusNode,
                   errorText: _store.formErrorStore.userWeight,
                   onChanged: (value) {
-                    _setWeight(value);
+                    widget.store
+                        .setUserWeight(double.parse(widget.controller.text));
                   },
+                  // onChanged: (value) {
+                  //   _setWeight(value);
+                  // },
                   inputFormatters: <TextInputFormatter>[
                     // FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(3),

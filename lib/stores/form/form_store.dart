@@ -63,7 +63,7 @@ abstract class _UserStore with Store {
   int userYoB;
 
   @observable
-  String userSex;
+  String userSex = '';
 
   @observable
   int userHeight;
@@ -129,6 +129,20 @@ abstract class _UserStore with Store {
   @action
   void setUserName(String value) {
     userName = value;
+  }
+
+  @action
+  void resetRegistration() {
+    userEmail = '';
+    userName = '';
+    password = '';
+  }
+
+  @action
+  void resetErrors() {
+    formErrorStore.userEmail = null;
+    formErrorStore.userName = null;
+    formErrorStore.password = null;
   }
 
   @action
@@ -251,7 +265,7 @@ abstract class _UserStore with Store {
     // print('year: ' + year.toString());
     // print('value: ' + value.toString());
     var isInt = value is int;
-    if (!isInt || value > year || value < 1900) {
+    if (!isInt || value > 2004 || value < 1940) {
       formErrorStore.userYob = "Please set a valid year";
     } else {
       formErrorStore.userYob = null;
@@ -262,6 +276,8 @@ abstract class _UserStore with Store {
   void validateUserHeight(int value) {
     if (value > 250 || value < 120) {
       formErrorStore.userHeight = "Please set a valid height";
+    } else if (value == 0 || value == null) {
+      formErrorStore.userHeight = "Please set your height";
     } else {
       formErrorStore.userHeight = null;
     }
@@ -269,10 +285,12 @@ abstract class _UserStore with Store {
 
   @action
   void validateUserWeight(double value) {
-    var compare1 = value.compareTo(500);
+    var compare1 = value.compareTo(300);
     var compare2 = value.compareTo(30);
     if (compare1 == 1 || compare2 == -1) {
       formErrorStore.userWeight = "Please set a valid weight";
+    } else if (value == 0 || value == null) {
+      formErrorStore.userWeight = "Please set your weight";
     } else {
       formErrorStore.userWeight = null;
     }
@@ -281,7 +299,6 @@ abstract class _UserStore with Store {
   @action
   Future register() async {
     loading = true;
-
     Future.delayed(Duration(milliseconds: 1000)).then((future) {
       loading = false;
       success = true;

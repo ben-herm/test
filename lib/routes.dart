@@ -1,3 +1,4 @@
+import 'package:Relievion/ui/register/letsConnect.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/home/home.dart';
@@ -20,6 +21,7 @@ class Routes {
   static const String register = '/register';
   static const String emailConfirmation = '/emailConfirmation';
   static const String questionnaire = '/questionnaire';
+  static const String letsConnect = '/letsConnect';
 
   //login routes
   static const String login = '/login';
@@ -49,6 +51,7 @@ class Routes {
     emailConfirmation: (BuildContext context) => EmailConfirmation(),
     login: (BuildContext context) => LoginScreen(),
     questionnaire: (BuildContext context) => QuestionnaireScreen(),
+    letsConnect: (BuildContext context) => LetsConnectScreen(),
     onboarding: (BuildContext context) => Onboarding(),
     home: (BuildContext context) => HomeScreen(),
   };

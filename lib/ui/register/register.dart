@@ -46,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
+
     _passwordFocusNode = FocusNode();
     _emailFocusNode = FocusNode();
     _nameFocusNode = FocusNode();
@@ -72,23 +73,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     print("Focus: " + _nameFocusNode.hasFocus.toString());
   }
 
+  _onBackPressed(context) {
+    final _store = Provider.of<UserStore>(context, listen: false);
+    _store.resetRegistration();
+    _store.resetErrors();
+    Navigator.of(context).pop(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     final _store = Provider.of<UserStore>(context);
-    return Scaffold(
-      primary: true,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-        title: Text("Sample"),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: _buildBody(_store),
-    );
+    return WillPopScope(
+        onWillPop: () => _onBackPressed(context),
+        child: Scaffold(
+          primary: true,
+          resizeToAvoidBottomPadding: false,
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            // title: Text(_step.toString()),
+
+            // centerTitle: false,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+          ),
+          body: _buildBody(_store),
+        ));
   }
 
   // body methods:--------------------------------------------------------------
@@ -391,13 +402,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontSize: 18,
                 )),
             onPressed: () async {
-              if (_store.canRegister) {
+              if (!_store.canRegister) {
+                _showErrorMessage('Please fill in all fields');
+              } else if (_value1 == false) {
+                _showErrorMessage('Please check the Privecy Policy Agreement');
+              } else {
                 DeviceUtils.hideKeyboard(context);
                 // await _store.register();
                 Navigator.of(context).pushNamed(Routes.emailConfirmation);
                 // Navigator.of(context).pushNamed(Routes.register);
-              } else {
-                _showErrorMessage('Please fill in all fields');
               }
             },
           ),
@@ -438,6 +451,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Clean up the controller when the Widget is removed from the Widget tree
     _userEmailController.dispose();
     _passwordController.dispose();
+    _userNameController.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
   }

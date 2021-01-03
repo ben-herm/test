@@ -292,6 +292,28 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  void resetRegistration() {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.resetRegistration');
+    try {
+      return super.resetRegistration();
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetErrors() {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.resetErrors');
+    try {
+      return super.resetErrors();
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setUserId(String value) {
     final _$actionInfo =
         _$_UserStoreActionController.startAction(name: '_UserStore.setUserId');

@@ -1,14 +1,9 @@
-import 'package:Relievion/models/medications/medications.dart';
 import 'package:Relievion/widgets/flat_button.dart';
 import 'package:Relievion/widgets/next_button.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:Relievion/stores/theme/text_styles.dart';
-import 'package:Relievion/widgets/elevated_button.dart';
 import 'package:flutter/rendering.dart';
-import 'package:Relievion/models/medications/medications.dart';
 
 class UserMedications extends StatefulWidget {
   final store;
@@ -69,11 +64,11 @@ class _UserMedicationsState extends State<UserMedications> {
   Widget build(BuildContext context) {
     var newMedications = medications;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.9,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(
             AppLocalizations.of(context).translate('medications'),
@@ -161,17 +156,14 @@ class _UserMedicationsState extends State<UserMedications> {
               text: AppLocalizations.of(context).translate('medicationGroup') +
                   ' 1\n' +
                   '(Zomig)'),
-          Expanded(
-              child: new Align(
-                  alignment: Alignment.bottomCenter,
-                  child: new NextButtonWidget(
-                    store: widget.store,
-                    type: 'userMedications',
-                    checkError: _checkIfMedicationsExist() ? false : true,
-                    callBack: widget.callBack,
-                    value: medications,
-                    btnType: "2",
-                  ))),
+          new NextButtonWidget(
+            store: widget.store,
+            type: 'userMedications',
+            checkError: _checkIfMedicationsExist() ? false : true,
+            callBack: widget.callBack,
+            value: medications,
+            btnType: "2",
+          ),
         ],
       ),
     );
