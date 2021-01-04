@@ -59,6 +59,9 @@ dependencies:
   # String validation and sanitization for Dart. Dart 2-compatible version of validator
   validators: ^2.0.1
 
+  #loading overlay
+  loading_overlay: ^0.2.1
+
   # A powerful Http client for Dart
   dio: 3.0.10
 

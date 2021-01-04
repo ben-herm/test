@@ -8,6 +8,8 @@ import 'package:Relievion/widgets/progress_indicator_widget.dart';
 import 'package:Relievion/widgets/textfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_overlay/loading_overlay.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -25,26 +27,28 @@ class LetsConnectScreen extends StatefulWidget {
 class _LetsConnectState extends State<LetsConnectScreen> {
   final FlutterBlue flutterBlue = FlutterBlue.instance;
 
+  // text controllers
   TextEditingController _digitsController1 = TextEditingController();
 
   TextEditingController _digitsController2 = TextEditingController();
 
   TextEditingController _digitsController3 = TextEditingController();
 
+  //focus nodes
   FocusNode _digitsFocusNode1;
 
   FocusNode _digitsFocusNode2;
 
   FocusNode _digitsFocusNode3;
 
+  //variables
   Map<String, dynamic> connectObj = {
     "serialNumber": '',
   };
 
-  Map<int, dynamic> serialNumber;
+  Map<int, String> serialNumber;
 
-  StreamController streamController;
-  // foods[foods.indexWhere((element) => element.uid == food.uid)] = food;
+  bool _isLoading = false;
 
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
 
@@ -54,11 +58,10 @@ class _LetsConnectState extends State<LetsConnectScreen> {
   void _setSerialNumber(Map<int, dynamic> value) =>
       setState(() => serialNumber = value);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // print('serialNumber' + _setconnectObj.toString());
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   @override
   void initState() {
@@ -109,19 +112,28 @@ class _LetsConnectState extends State<LetsConnectScreen> {
   Widget build(BuildContext context) {
     TextStyle titleStyle = TextStyles.title.copyWith(fontSize: 25);
     return Scaffold(
-      primary: true,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+        primary: true,
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text("Sample"),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
         ),
-        title: Text("Sample"),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: _buildBody(),
-    );
+        body: LoadingOverlay(
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: _buildBody(context),
+          ),
+          isLoading: _isLoading,
+          color: Colors.grey.shade100,
+          // demo of some additional parameters
+          opacity: 0.5,
+          progressIndicator: CircularProgressIndicator(),
+        ));
   }
 
   Widget buildNumberInputs(int index) {
@@ -156,16 +168,31 @@ class _LetsConnectState extends State<LetsConnectScreen> {
                   autoFocus: false,
                   underlineBorder: true,
                   onChanged: (value) async {
+                    var count = 0;
                     newSerialNumber.forEach((key, val) {
                       if (key == index) {
                         newSerialNumber.update(index, (v) => value.toString());
                       }
                     });
+                    newSerialNumber.forEach((key, val) {
+                      if (val.length > 0) {
+                        print('bitch');
+                        count++;
+                      }
+                    });
+                    print('count' + count.toString());
+                    if (count == 3) {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      Future.delayed(Duration(milliseconds: 3000), () {
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      });
+                    }
                     print('zevel' + newSerialNumber.toString());
                     _setSerialNumber(newSerialNumber);
-                    streamController.stream.listen((data) {
-                      print("listen value $data");
-                    });
                   },
                   onFieldSubmitted: (value) {
                     if (index == 1) {
@@ -188,7 +215,7 @@ class _LetsConnectState extends State<LetsConnectScreen> {
             )));
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     final _store = Provider.of<UserStore>(context);
     TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 25);
     TextStyle subTitleStyle = TextStyles.body;
@@ -260,72 +287,7 @@ class _LetsConnectState extends State<LetsConnectScreen> {
                                 SizedBox(width: 15),
                                 buildNumberInputs(3),
                               ]),
-                          // Text.rich(
-                          //   TextSpan(
-                          //     style: TextStyle(color: Colors.black),
-                          //     children: <InlineSpan>[
-                          //       WidgetSpan(
-                          //           alignment: PlaceholderAlignment.baseline,
-                          //           baseline: TextBaseline.alphabetic,
-                          //           child: ConstrainedBox(
-                          //             constraints:
-                          //                 BoxConstraints(maxWidth: 100),
-                          //             child: TextFieldWidget(
-                          //               // hint: AppLocalizations.of(context).translate('userName'),
-                          //               inputType: TextInputType.name,
-                          //               // icon: Icons.person,
-                          //               // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
-                          //               // textController: _userNameController,
-                          //               inputAction: TextInputAction.next,
-                          //               autoFocus: false,
-                          //               underlineBorder: true,
-                          //               onChanged: (value) {
-                          //                 // _store.setUserName(
-                          //                 //     _userNameController.text);
-                          //               },
-                          //               onFieldSubmitted: (value) {
-                          //                 // FocusScope.of(context)
-                          //                 //     .requestFocus(_emailFocusNode);
-                          //               },
-                          //               errorText:
-                          //                   _store.formErrorStore.userName,
-                          //               inputFormatters: [
-                          //                 LengthLimitingTextInputFormatter(9),
-                          //                 FilteringTextInputFormatter(
-                          //                     RegExp('[a-zA-Z0-9]'),
-                          //                     allow: true)
-                          //               ],
-                          //             ),
-                          //           )),
-                          //       TextSpan(
-                          //         text: '.',
-                          //       ),
-                          //     ],
-                          //   ),
-                          // )
-                          // Text(
-                          //   AppLocalizations.of(context).translate('confirmEmailTxt1'),
-                          //   textAlign: TextAlign.center,
-                          //   style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-                          // ),
-                          // SizedBox(height: 24.0),
-                          // Text(
-                          //   AppLocalizations.of(context).translate('confirmEmailTxt2'),
-                          //   style: subTitleStyle,
-                          // )
-                        ])
-                        // StreamBuilder<BluetoothState>(
-                        //     stream: FlutterBlue.instance.state,
-                        //     initialData: BluetoothState.unknown,
-                        //     builder: (c, snapshot) {
-                        //       final state = snapshot.data;
-                        //       return
-                        //       // if (state == BluetoothState.on) {
-                        //       //   return FindDevicesScreen();
-                        //       // }
-                        //       // return BluetoothOffScreen(state: state);
-                        //     }),
-                        ),
+                        ])),
                     Observer(
                       builder: (context) {
                         return Visibility(
