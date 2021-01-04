@@ -69,6 +69,13 @@ mixin _$UserStore on _UserStore, Store {
           () => super.isMedicationsSet,
           name: '_UserStore.isMedicationsSet'))
       .value;
+  Computed<bool> _$isTriggersSetComputed;
+
+  @override
+  bool get isTriggersSet =>
+      (_$isTriggersSetComputed ??= Computed<bool>(() => super.isTriggersSet,
+              name: '_UserStore.isTriggersSet'))
+          .value;
 
   final _$userNameAtom = Atom(name: '_UserStore.userName');
 
@@ -217,6 +224,21 @@ mixin _$UserStore on _UserStore, Store {
   set userMedications(Map<String, Map<dynamic, dynamic>> value) {
     _$userMedicationsAtom.reportWrite(value, super.userMedications, () {
       super.userMedications = value;
+    });
+  }
+
+  final _$triggersAtom = Atom(name: '_UserStore.triggers');
+
+  @override
+  List<String> get triggers {
+    _$triggersAtom.reportRead();
+    return super.triggers;
+  }
+
+  @override
+  set triggers(List<String> value) {
+    _$triggersAtom.reportWrite(value, super.triggers, () {
+      super.triggers = value;
     });
   }
 
@@ -413,6 +435,17 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  void setUserTriggers(List<String> value) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.setUserTriggers');
+    try {
+      return super.setUserTriggers(value);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void validateUserName(String value) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.validateUserName');
@@ -502,6 +535,7 @@ userHeight: ${userHeight},
 userWeight: ${userWeight},
 userHeadacheDays: ${userHeadacheDays},
 userMedications: ${userMedications},
+triggers: ${triggers},
 success: ${success},
 loading: ${loading},
 canLogin: ${canLogin},
@@ -512,7 +546,8 @@ isHeightSet: ${isHeightSet},
 isWeightSet: ${isWeightSet},
 canForgetPassword: ${canForgetPassword},
 isHeadacheDaysSet: ${isHeadacheDaysSet},
-isMedicationsSet: ${isMedicationsSet}
+isMedicationsSet: ${isMedicationsSet},
+isTriggersSet: ${isTriggersSet}
     ''';
   }
 }
@@ -554,6 +589,14 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
       (_$hasErrorInMedicationsSelectionComputed ??= Computed<bool>(
               () => super.hasErrorInMedicationsSelection,
               name: '_FormErrorStore.hasErrorInMedicationsSelection'))
+          .value;
+  Computed<bool> _$hasErrorInTriggersSelectionComputed;
+
+  @override
+  bool get hasErrorInTriggersSelection =>
+      (_$hasErrorInTriggersSelectionComputed ??= Computed<bool>(
+              () => super.hasErrorInTriggersSelection,
+              name: '_FormErrorStore.hasErrorInTriggersSelection'))
           .value;
   Computed<bool> _$hasErrorInYearSelectionComputed;
 
@@ -689,6 +732,21 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$triggersAtom = Atom(name: '_FormErrorStore.triggers');
+
+  @override
+  String get triggers {
+    _$triggersAtom.reportRead();
+    return super.triggers;
+  }
+
+  @override
+  set triggers(String value) {
+    _$triggersAtom.reportWrite(value, super.triggers, () {
+      super.triggers = value;
+    });
+  }
+
   final _$userSexAtom = Atom(name: '_FormErrorStore.userSex');
 
   @override
@@ -744,6 +802,7 @@ confirmPassword: ${confirmPassword},
 userHeadacheDays: ${userHeadacheDays},
 userYob: ${userYob},
 userMedications: ${userMedications},
+triggers: ${triggers},
 userSex: ${userSex},
 userHeight: ${userHeight},
 userWeight: ${userWeight},
@@ -752,6 +811,7 @@ hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword},
 hasErrorInHeadacheSelection: ${hasErrorInHeadacheSelection},
 hasErrorInMedicationsSelection: ${hasErrorInMedicationsSelection},
+hasErrorInTriggersSelection: ${hasErrorInTriggersSelection},
 hasErrorInYearSelection: ${hasErrorInYearSelection},
 hasErrorInSexSelection: ${hasErrorInSexSelection},
 hasErrorInHeightSelection: ${hasErrorInHeightSelection},

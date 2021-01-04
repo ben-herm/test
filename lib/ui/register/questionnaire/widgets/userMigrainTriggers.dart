@@ -44,6 +44,11 @@ class _UserMigrainTriggersState extends State<UserMigrainTriggers> {
     "stress",
     "other"
   ];
+
+  List<String> finalTriggers = [];
+  void _addTriggers(String value) => setState(() => finalTriggers.add(value));
+  void _removeTriggers(String value) =>
+      setState(() => finalTriggers.remove(value));
   void _setHeight(int value) => setState(() => height = value);
 
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
@@ -63,14 +68,40 @@ class _UserMigrainTriggersState extends State<UserMigrainTriggers> {
   }
 
   Widget renderImages(index) {
-    return Column(
-      children: [
-        CustomImageWidget(image: 'assets/images/imagePlaceholder.png'),
-        Text(
-          AppLocalizations.of(context).translate(triggers[index]),
-          style: TextStyle(fontSize: 13),
-        )
-      ],
+    return Container(
+      child: ClipRRect(
+          // borderRadius: BorderRadius.(20.0),
+          child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              if (finalTriggers.contains(triggers[index])) {
+                print('removing' + triggers[index]);
+                _removeTriggers(triggers[index]);
+              } else {
+                print('adding' + triggers[index]);
+                _addTriggers(triggers[index]);
+              }
+              print(finalTriggers.toString());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: finalTriggers.contains(triggers[index])
+                      ? Colors.red
+                      : Colors.black,
+                ),
+              ),
+              child: CustomImageWidget(
+                  image: 'assets/images/imagePlaceholder.png'),
+            ),
+          ),
+          Text(
+            AppLocalizations.of(context).translate(triggers[index]),
+            style: TextStyle(fontSize: 13),
+          )
+        ],
+      )),
     );
   }
 
@@ -128,10 +159,13 @@ class _UserMigrainTriggersState extends State<UserMigrainTriggers> {
         Align(
             alignment: Alignment.bottomCenter,
             child: new NextButtonWidget(
-                store: widget.store,
-                type: 'userWeight',
-                callBack: widget.callBack,
-                btnType: "1")),
+              store: widget.store,
+              type: 'userTriggers',
+              checkError: false,
+              callBack: widget.callBack,
+              value: finalTriggers,
+              btnType: "2",
+            )),
 
         // _buildNextButton(_store, 'userHeight')
       ],

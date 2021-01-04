@@ -136,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
           textController: _userEmailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
+          underlineBorder: false,
           onChanged: (value) {
             _store.setUserId(_userEmailController.text);
           },
@@ -160,6 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
           iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
           textController: _passwordController,
           focusNode: _passwordFocusNode,
+          underlineBorder: false,
           errorText: _store.formErrorStore.password,
           onChanged: (value) {
             _store.setPassword(_passwordController.text);

@@ -64,44 +64,31 @@ class _EmailConfirmationState extends State<EmailConfirmation> {
         child: SingleChildScrollView(
       child: Stack(
         children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: _buildLeftSide(),
+          Container(
+              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    _buildRightSide(),
+                    // Observer(
+                    //   builder: (context) {
+                    //     return _store.success
+                    //         ? navigate(context)
+                    //         : _showErrorMessage(
+                    //             _store.errorStore.errorMessage);
+                    //   },
                     // ),
-                    Expanded(
-                      flex: 1,
-                      child: _buildRightSide(),
-                    ),
+                    Observer(
+                      builder: (context) {
+                        return Visibility(
+                          visible: _store.loading,
+                          child: CustomProgressIndicatorWidget(),
+                        );
+                      },
+                    )
                   ],
-                )
-              : Container(
-                  padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                  child: SafeArea(
-                    child: Column(
-                      children: [
-                        _buildRightSide(),
-                        // Observer(
-                        //   builder: (context) {
-                        //     return _store.success
-                        //         ? navigate(context)
-                        //         : _showErrorMessage(
-                        //             _store.errorStore.errorMessage);
-                        //   },
-                        // ),
-                        Observer(
-                          builder: (context) {
-                            return Visibility(
-                              visible: _store.loading,
-                              child: CustomProgressIndicatorWidget(),
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  )),
+                ),
+              )),
         ],
       ),
     ));

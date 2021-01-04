@@ -42,7 +42,7 @@
   "resendEmail": "Resend email",
   "register_end": "-------------------------------------------------------------------------------------",
 
-  "questionnaire_start": "Below are list of strings for register screen",
+  "questionnaire_start": "Below are list of strings for questionnaire screen",
   "getToKnow": "Let's get to know you",
   "getToKnowSub": "To make your tailor made treatment plan",
   "yob": "Your Year of birth",
@@ -78,5 +78,11 @@
   "weekend": "Weekend",
   "other": "Other",
   "stress": "Stress",
-  "lackOfSleep": "Lack of Sleep"
+  "lackOfSleep": "Lack of Sleep",
+  "questionnaire_end": "-------------------------------------------------------------------------------------",
+  "letsConnect_start": "Below are list of strings for letsConnect screen",
+  "letsConnect": "Let's Connect",
+  "letsConnectSub1": "Turn on your Relivion device and \n enter the",
+  "last3digits": " last 3 digits ",
+  "letsConnectSub2": "of the serial number"
 }

@@ -69,6 +69,7 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
                   // icon: Icons.lock,
                   // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
                   textController: widget.controller,
+                  underlineBorder: false,
                   focusNode: widget.focusNode,
                   errorText: _store.formErrorStore.userHeight,
                   onChanged: (value) {
@@ -122,7 +123,7 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
         SizedBox(height: 24.0),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.75,
+            width: MediaQuery.of(context).size.width * 0.65,
             child: Observer(
               builder: (context) {
                 return TextFieldWidget(
@@ -133,6 +134,7 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
                   // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
                   textController: widget.controller,
                   focusNode: widget.focusNode,
+                  underlineBorder: false,
                   errorText: _store.formErrorStore.userWeight,
                   onChanged: (value) {
                     widget.store

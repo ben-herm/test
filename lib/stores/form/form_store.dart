@@ -78,6 +78,9 @@ abstract class _UserStore with Store {
   Map<String, Map> userMedications;
 
   @observable
+  List<String> triggers;
+
+  @observable
   bool success = false;
 
   @observable
@@ -124,6 +127,10 @@ abstract class _UserStore with Store {
   @computed
   bool get isMedicationsSet =>
       !formErrorStore.hasErrorInMedicationsSelection && userMedications != null;
+
+  @computed
+  bool get isTriggersSet =>
+      !formErrorStore.hasErrorInTriggersSelection && triggers != null;
 
   // actions:-------------------------------------------------------------------
   @action
@@ -188,6 +195,11 @@ abstract class _UserStore with Store {
   @action
   void setUsermedications(Map<String, Map> value) {
     userMedications = value;
+  }
+
+  @action
+  void setUserTriggers(List<String> value) {
+    triggers = value;
   }
 
   @action
@@ -381,6 +393,9 @@ abstract class _FormErrorStore with Store {
   String userMedications;
 
   @observable
+  String triggers;
+
+  @observable
   String userSex;
 
   @observable
@@ -408,6 +423,9 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInMedicationsSelection => userMedications != null;
+
+  @computed
+  bool get hasErrorInTriggersSelection => triggers != null;
 
   @computed
   bool get hasErrorInYearSelection => userYob != null;

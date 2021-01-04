@@ -137,7 +137,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     }
   }
 
-  void setNextActionByType(store, type, [Map value]) async {
+  void setNextActionByType(store, type, [value]) async {
     DeviceUtils.hideKeyboard(context);
     switch (type) {
       case 'userYob':
@@ -175,6 +175,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         await store.setUsermedications(value);
         if (store.isMedicationsSet) {
           _increaseStep(1);
+        }
+        break;
+      case 'userTriggers':
+        await store.setUserTriggers(value);
+        if (store.isTriggersSet) {
+          navigate(context);
+          // _increaseStep(1);
         }
         break;
     }
@@ -291,13 +298,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   Widget navigate(BuildContext context) {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
-    });
+    // SharedPreferences.getInstance().then((prefs) {
+    //   prefs.setBool(Preferences.is_logged_in, true);
+    // });
 
     Future.delayed(Duration(milliseconds: 0), () {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamed(Routes.letsConnect);
     });
 
     return Container();

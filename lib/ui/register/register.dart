@@ -226,6 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               textController: _userNameController,
               inputAction: TextInputAction.next,
               autoFocus: false,
+              underlineBorder: false,
               onChanged: (value) {
                 _store.setUserName(_userNameController.text);
               },
@@ -316,6 +317,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               textController: _userEmailController,
               inputAction: TextInputAction.next,
               focusNode: _emailFocusNode,
+              underlineBorder: false,
               autoFocus: false,
               onChanged: (value) {
                 _store.setUserId(_userEmailController.text);
@@ -358,6 +360,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
               textController: _passwordController,
               focusNode: _passwordFocusNode,
+              underlineBorder: false,
               errorText: _store.formErrorStore.password,
               onChanged: (value) {
                 _store.setPassword(_passwordController.text);
@@ -391,7 +394,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: EdgeInsets.fromLTRB(0, 0, 0, 130),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.75,
-          height: MediaQuery.of(context).size.height * 0.05,
+          height: MediaQuery.of(context).size.width * 0.12,
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor:

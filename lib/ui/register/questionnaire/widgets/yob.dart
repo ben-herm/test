@@ -47,6 +47,7 @@ class _YobState extends State<Yob> {
                 // iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
                 textController: widget.controller,
                 focusNode: _yobFocusNode,
+                underlineBorder: false,
                 errorText: widget.store.formErrorStore.userYob,
                 onChanged: (value) {
                   widget.store.setUserYob(int.parse(widget.controller.text));
