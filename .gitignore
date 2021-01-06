@@ -30,6 +30,10 @@
 .pub/
 build/
 /*/build/
+*.inject.dart
+*.inject.summary
+inject.dart
+inject.summary
 
 # Include .packages files from tests which are hand coded
 !build_runner_core/test/fixtures/**/.packages
