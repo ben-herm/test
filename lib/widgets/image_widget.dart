@@ -27,8 +27,8 @@ class CustomImageWidget extends StatelessWidget {
     return Image.asset(
       image,
       fit: BoxFit.contain,
-      // height: imageHeight,
-      // width: imageWidth,
+      height: imageHeight,
+      width: imageWidth,
     );
   }
 }

@@ -13,20 +13,21 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'dart:collection';
 import 'package:provider/provider.dart';
 
 class LetsConnectScreen extends StatefulWidget {
-  ValueNotifier serialNumber = ValueNotifier(false);
   LetsConnectScreen({Key key}) : super(key: key);
-
+  final FlutterBlue flutterBlue = FlutterBlue.instance;
+  final List<BluetoothDevice> devicesList = new List<BluetoothDevice>();
+  final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
   @override
   _LetsConnectState createState() => _LetsConnectState();
 }
 
 class _LetsConnectState extends State<LetsConnectScreen> {
-  final FlutterBlue flutterBlue = FlutterBlue.instance;
-
+  final _writeController = TextEditingController();
+  BluetoothDevice _connectedDevice;
+  List<BluetoothService> _services;
   // text controllers
   TextEditingController _digitsController1 = TextEditingController();
 
@@ -66,15 +67,6 @@ class _LetsConnectState extends State<LetsConnectScreen> {
   @override
   void initState() {
     super.initState();
-    _digitsFocusNode1 = FocusNode();
-    _digitsFocusNode2 = FocusNode();
-    _digitsFocusNode3 = FocusNode();
-    _digitsFocusNode1.addListener(_ondigitsFocusNode1Change);
-    _digitsFocusNode2.addListener(_ondigitsFocusNode2Change);
-    _digitsFocusNode3.addListener(_ondigitsFocusNode3Change);
-    serialNumber = {1: '', 2: '', 3: ''};
-    // streamController.sink.add(serialNumber);
-    print('letsConnect');
     // flutterBlue.connectedDevices
     //     .asStream()
     //     .listen((List<BluetoothDevice> devices) {
@@ -82,21 +74,81 @@ class _LetsConnectState extends State<LetsConnectScreen> {
     //     print('devices' + device.toString());
     //   }
     // });
-    // flutterBlue.startScan();
-    // flutterBlue.scanResults.listen((List<ScanResult> results) {
-    //   for (ScanResult result in results) {
-    //     print('lover' + result.toString());
-    //   }
-    // });
+
+    _digitsFocusNode1 = FocusNode();
+    _digitsFocusNode2 = FocusNode();
+    _digitsFocusNode3 = FocusNode();
+    _digitsFocusNode1.addListener(_ondigitsFocusNode1Change);
+    _digitsFocusNode2.addListener(_ondigitsFocusNode2Change);
+    _digitsFocusNode3.addListener(_ondigitsFocusNode3Change);
+    serialNumber = {1: '', 2: '', 3: ''};
+
+    widget.flutterBlue.connectedDevices
+        .asStream()
+        .listen((List<BluetoothDevice> devices) {
+      for (BluetoothDevice device in devices) {
+        print('connectedBle ' + device.toString());
+        widget.flutterBlue.stopScan();
+        _addDeviceTolist(device);
+      }
+    });
+    widget.flutterBlue.scanResults.listen((List<ScanResult> results) {
+      for (ScanResult result in results) {
+        if (result.device.name == 'RLV') {
+          print('fuck');
+          widget.flutterBlue.stopScan();
+          _addDeviceTolist(result.device);
+        }
+      }
+    });
+    // widget.flutterBlue.startScan();
   }
 
-  void checkDeviceConnection() {
-    super.didChangeDependencies();
-    print('serialNumber' + _setconnectObj.toString());
+  _showDevicecharictaristics(device) async {
+    print('ok');
+    try {
+      await device.connect();
+    } catch (e) {
+      print('error' + e.toString());
+      if (e.code != 'already_connected') {
+        setState(() {
+          _isLoading = false;
+        });
+        print('already_connected');
+      }
+    } finally {
+      _services = await device.discoverServices();
+      for (BluetoothService service in _services) {
+        for (BluetoothCharacteristic characteristic
+            in service.characteristics) {
+          print('uuid ' + characteristic.uuid.toString());
+          if (characteristic.uuid.toString().contains('2a25')) {
+            var list = await characteristic.read();
+            list.forEach((i) {
+              print(i);
+              print('asiic' + String.fromCharCode(i));
+            });
+          }
+
+          // print(characteristic.read());
+        }
+      }
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  _addDeviceTolist(final BluetoothDevice device) {
+    if (!widget.devicesList.contains(device)) {
+      setState(() {
+        widget.devicesList.add(device);
+      });
+    }
+    _showDevicecharictaristics(device);
   }
 
   void _ondigitsFocusNode1Change() {
-    print('bitch' + serialNumber.toString());
     // print("Focus: " + _digitsFocusNode1.hasFocus.toString());
   }
 
@@ -108,9 +160,18 @@ class _LetsConnectState extends State<LetsConnectScreen> {
     // print("Focus: " + _digitsFocusNode3.hasFocus.toString());
   }
 
+  _onBackPressed(context) {
+    for (BluetoothDevice device in widget.devicesList) {
+      device.disconnect();
+    }
+
+    // widget.flutterBlue..stopScan();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle titleStyle = TextStyles.title.copyWith(fontSize: 25);
+
     return Scaffold(
         primary: true,
         resizeToAvoidBottomPadding: false,
@@ -134,6 +195,12 @@ class _LetsConnectState extends State<LetsConnectScreen> {
           opacity: 0.5,
           progressIndicator: CircularProgressIndicator(),
         ));
+  }
+
+  void checkDevice(r) async {
+    if (r.device.name == 'RLV') {
+      print('kaki' + r.device.toString());
+    }
   }
 
   Widget buildNumberInputs(int index) {
@@ -176,22 +243,56 @@ class _LetsConnectState extends State<LetsConnectScreen> {
                     });
                     newSerialNumber.forEach((key, val) {
                       if (val.length > 0) {
-                        print('bitch');
                         count++;
                       }
                     });
-                    print('count' + count.toString());
                     if (count == 3) {
                       setState(() {
                         _isLoading = true;
                       });
-                      Future.delayed(Duration(milliseconds: 3000), () {
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      });
+                      widget.flutterBlue
+                          .startScan(timeout: Duration(seconds: 4));
+
+                      // for (BluetoothDevice device in widget.devicesList) {
+                      //   try {
+                      //     await device.connect();
+                      //   } catch (e) {
+                      //     print('error' + e.toString());
+                      //     if (e.code != 'already_connected') {
+                      //       setState(() {
+                      //         _isLoading = false;
+                      //       });
+                      //       print('already_connected');
+                      //     }
+                      //   } finally {
+                      //     print('batata');
+                      //     _services = await device.discoverServices();
+                      //     for (BluetoothService service in _services) {
+                      //       for (BluetoothCharacteristic characteristic
+                      //           in service.characteristics) {
+                      //         // print(characteristic.read().asStream().first);
+                      //         var list = await characteristic.read();
+                      //         // print("god" + list.toString());
+                      //         list.forEach((element) {
+                      //           print('aviya hameleh' +
+                      //               String.fromCharCode(element));
+                      //         });
+                      //         // print(characteristic.read());
+                      //       }
+                      //     }
+                      //     setState(() {
+                      //       _isLoading = false;
+                      //     });
+                      //   }
+                      // }
+
+                      // Future.delayed(Duration(milliseconds: 4000), () {
+                      //   setState(() {
+                      //     _isLoading = false;
+                      //   });
+                      // });
                     }
-                    print('zevel' + newSerialNumber.toString());
+
                     _setSerialNumber(newSerialNumber);
                   },
                   onFieldSubmitted: (value) {
@@ -253,7 +354,7 @@ class _LetsConnectState extends State<LetsConnectScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   color: Colors.black,
-                                  fontSize: 14,
+                                  fontSize: 18,
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
@@ -262,7 +363,7 @@ class _LetsConnectState extends State<LetsConnectScreen> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
-                                      fontSize: 14,
+                                      fontSize: 18,
                                     ),
                                   ),
                                   TextSpan(
@@ -271,7 +372,7 @@ class _LetsConnectState extends State<LetsConnectScreen> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       color: Colors.black,
-                                      fontSize: 14,
+                                      fontSize: 18,
                                     ),
                                   )
                                 ]),
@@ -302,5 +403,13 @@ class _LetsConnectState extends State<LetsConnectScreen> {
         ],
       ),
     ));
+  }
+
+  // dispose:-------------------------------------------------------------------
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is removed from the Widget tree
+    // widget.flutterBlue.stopScan();
+    super.dispose();
   }
 }

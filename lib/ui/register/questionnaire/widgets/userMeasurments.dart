@@ -1,3 +1,4 @@
+import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:flutter/material.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter/services.dart';
@@ -34,6 +35,7 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
   void _setWeight(int value) => setState(() => weight = value);
 
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
+  TextStyle subTitleStyle = TextStyles.title.copyWith(fontSize: 18);
   @override
   Widget build(BuildContext context) {
     if (widget.type == 'userHeight') {
@@ -43,18 +45,21 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
   }
 
   Widget _buildHeightField(_store) {
+    if (AppTheme.fullWidth(context) < 393) {
+      titleStyle = TextStyles.h1Style.copyWith(fontSize: 18);
+      subTitleStyle = TextStyles.title.copyWith(fontSize: 16);
+    }
     return Column(
       children: <Widget>[
         Text(AppLocalizations.of(context).translate('userHeight'),
             style: titleStyle),
         SizedBox(height: 6.0),
         Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-        Text(AppLocalizations.of(context).translate('weightHeightSub'),
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              fontSize: 15,
-            )),
+        Text(
+          AppLocalizations.of(context).translate('weightHeightSub'),
+          style: subTitleStyle,
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: 24.0),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Container(
@@ -108,18 +113,21 @@ class _UserMeasurmentsState extends State<UserMeasurments> {
   }
 
   Widget _buildWeightField(_store) {
+    if (AppTheme.fullWidth(context) < 393) {
+      titleStyle = TextStyles.h1Style.copyWith(fontSize: 18);
+      subTitleStyle = TextStyles.title.copyWith(fontSize: 16);
+    }
     return Column(
       children: <Widget>[
         Text(AppLocalizations.of(context).translate('userWeight'),
             style: titleStyle),
         SizedBox(height: 6.0),
         Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-        Text(AppLocalizations.of(context).translate('weightHeightSub'),
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              fontSize: 15,
-            )),
+        Text(
+          AppLocalizations.of(context).translate('weightHeightSub'),
+          style: subTitleStyle,
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: 24.0),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Container(

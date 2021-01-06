@@ -38,7 +38,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       setState(() => _step != 0 ? _step = _step - value : _step);
   //stores:---------------------------------------------------------------------
   ThemeStore _themeStore;
-  TextStyle titleStyle = TextStyles.title.copyWith(fontSize: 12);
+  TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 22);
+  TextStyle subTitleStyle = TextStyles.title.copyWith(fontSize: 18);
 
   // FormStore _store;
 
@@ -245,7 +246,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
 
   Widget _buildHeader(_store) {
     if (AppTheme.fullWidth(context) < 393) {
-      titleStyle = TextStyles.h1Style.copyWith(fontSize: 24);
+      titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
+      subTitleStyle = TextStyles.title.copyWith(fontSize: 16);
     }
     return Container(
       child: Column(children: [
@@ -266,11 +268,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
         Text(
           AppLocalizations.of(context).translate('getToKnowSub'),
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
-            fontSize: 18,
-          ),
+          style: subTitleStyle,
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 60.0),
@@ -280,8 +278,10 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
 
   Widget _buildRightSide(_store) {
     if (AppTheme.fullWidth(context) < 393) {
-      titleStyle = TextStyles.h1Style.copyWith(fontSize: 23);
+      titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
+      subTitleStyle = TextStyles.title.copyWith(fontSize: 16);
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(

@@ -1,3 +1,4 @@
+import 'package:Relievion/stores/theme/theme_store.dart';
 import 'package:flutter/material.dart';
 import 'package:Relievion/utils/locale/app_localization.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,19 +16,23 @@ class UserSex extends StatefulWidget {
 
 class _UserSexState extends State<UserSex> {
   TextStyle titleStyle = TextStyles.h1Style.copyWith(fontSize: 20);
+  TextStyle subTitleStyle = TextStyles.title.copyWith(fontSize: 18);
   @override
   Widget build(BuildContext context) {
+    if (AppTheme.fullWidth(context) < 393) {
+      titleStyle = TextStyles.h1Style.copyWith(fontSize: 18);
+      subTitleStyle = TextStyles.title.copyWith(fontSize: 16);
+    }
     return Column(
       children: <Widget>[
         Text(AppLocalizations.of(context).translate('sex'), style: titleStyle),
         SizedBox(height: 6.0),
         Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 0)),
-        Text(AppLocalizations.of(context).translate('sexSub'),
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              fontSize: 15,
-            )),
+        Text(
+          AppLocalizations.of(context).translate('sexSub'),
+          style: subTitleStyle,
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: 24.0),
         Observer(
           builder: (context) {
